@@ -164,7 +164,7 @@ const MembershipBody = () => {
             <button className="btn btn-outline-secondary" type="submit">Search</button>
         </form>
         <MembershipsTable deleteMembership={deleteMembership} memberships={memberships} />
-        {isDisplay && <MembershipModal customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
+        {isDisplay && <MembershipModal setMembership={setMembership} customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
     </div>)
 }
 

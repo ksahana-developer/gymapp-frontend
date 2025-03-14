@@ -39,7 +39,7 @@ const MembershipsTable = ({ memberships, deleteMembership }) => {
                             <td>{membership?.price} </td>
                             <td>{membership?.status == "active" ? <span className="badge text-bg-success">{membership?.status}</span> : <span className="badge text-bg-danger">{membership?.status}</span>} </td>
                             {/* <td><SlOptionsVertical onClick={handleAction} /> </td> */}
-                            <td>
+                            <td className="p-0">
                                 <div className="dropdown">
                                     <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <SlOptionsVertical />

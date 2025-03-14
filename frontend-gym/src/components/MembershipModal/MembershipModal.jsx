@@ -1,8 +1,11 @@
 import "./membershipmodal.css"
 import { IoMdClose } from "react-icons/io";
 
-const MembershipModal = ({ closeModal, customers, subscriptions }) => {
+const MembershipModal = ({ closeModal, customers, subscriptions, setMembership }) => {
     // centered-content is className for centering the content (like a modal)
+
+    //should write the logic to get the values from the form and set it 
+    // to membership obj, using setMembership prop
     return (
         <div className="centered-content d-flex flex-column">
             <div className="d-flex">
