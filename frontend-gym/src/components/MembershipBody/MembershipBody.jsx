@@ -13,6 +13,11 @@ const MembershipBody = () => {
     const closeModal = () => {
         setIsDisplay(false)
     }
+    
+    const [membership, setMembership] = useState({})
+    // const createMembership = (memb)=>{
+    //     setMembership(memb)
+    // }
     const [customers, setCustomers] = useState([
         {
             name: "Rajesh Wagle",
@@ -62,6 +67,7 @@ const MembershipBody = () => {
     ])
     const [memberships, setMemberships] = useState([{
         name: "Rajesh Wagle",
+        id: "219f47d2-905d-42ae-b920-b5dd53959752",
         type: "Super",
         startDate: "15/01/2023",
         endDate: "15/06/2025",
@@ -69,6 +75,7 @@ const MembershipBody = () => {
         status: "active"
     }, {
         name: "Harsha Javvaji",
+        id: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
         type: "Premium",
         startDate: "15/01/2023",
         endDate: "15/01/2026",
@@ -77,6 +84,7 @@ const MembershipBody = () => {
     }, {
         name: "Vasant",
         type: "Basic",
+        id: "24dc73a2-486b-4d17-885f-a83544bfc0b5",
         startDate: "15/01/2023",
         endDate: "15/04/2025",
         price: 3000,
@@ -84,13 +92,22 @@ const MembershipBody = () => {
     }, {
         name: "Arjun",
         type: "Super",
+        id: "8386b066-8b8c-46a3-8754-fc10ab229581",
         startDate: "15/01/2023",
         endDate: "15/01/2024",
         price: 5000,
         status: "epired"
     }
     ])
+
+    const deleteMembership = (id) => {
+        setMemberships(memberships.filter(membership => membership.id != id))
+    }
     
+    const updateMembership = (id)=>{
+        setIsDisplay(true)
+    }
+
     const [subscriptions, setSubscriptions] = useState([
         {
             amount: "5000",
@@ -146,7 +163,7 @@ const MembershipBody = () => {
             <input className="form-control me-2" type="search" placeholder="Search memberships..." aria-label="Search" />
             <button className="btn btn-outline-secondary" type="submit">Search</button>
         </form>
-        <MembershipsTable memberships={memberships} />
+        <MembershipsTable deleteMembership={deleteMembership} memberships={memberships} />
         {isDisplay && <MembershipModal customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
     </div>)
 }
