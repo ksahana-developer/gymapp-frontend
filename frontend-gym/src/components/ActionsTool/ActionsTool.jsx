@@ -5,6 +5,7 @@ import "./actionsTool.css"
 const ActionsTool = ({ id, deleteMembership }) => {
     
     const handleDelete = ()=>{
+        console.log("memb id is : ", id )
         deleteMembership(id)
     }
     // There is no updateCustomerSubscription func implemented in the backend

@@ -13,7 +13,7 @@ const MembershipBody = () => {
     const closeModal = () => {
         setIsDisplay(false)
     }
-    
+
     const [membership, setMembership] = useState({})
     // const createMembership = (memb)=>{
     //     setMembership(memb)
@@ -65,10 +65,101 @@ const MembershipBody = () => {
             id: "8d52915f-75ff-469d-a483-29eedc09fdaf"
         }
     ])
+
+    const fetchCustomers = async () => {
+        console.log('hi this is an api call')
+        console.log(`${process.env.REACT_BASE_URL}/api/customers`)
+        try {
+            const response = await fetch(`http://localhost:5000/api/customers`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
+            })
+            const data = await response.json()
+            console.log(data)
+            setCustomers(data.customers)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchSubscriptions = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/api/subscriptions", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
+            })
+            const data = await response.json()
+            console.log(data)
+            setSubscriptions(data.subscriptions.Items)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchMemberships = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/api/customerSubscriptions", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
+            })
+            const data = await response.json()
+            console.log(data)
+            setMemberships(data.customerSubscriptions.Items)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const createMembership = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/api/customerSubscriptions", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                },
+                body: JSON.stringify(membership)
+            })
+            const data = await response.json()
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const deleteMembership = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/customerSubscriptions/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
+            })
+            setMemberships(memberships.filter(membership => membership.id != id))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        fetchMemberships()
+        fetchSubscriptions()
+        fetchCustomers()
+    }, [])
+
     const [memberships, setMemberships] = useState([{
         name: "Rajesh Wagle",
         customerId: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
-        subscrptionId:"c89b7df9-949c-410c-85bf-f0a55b2077cf",
+        subscrptionId: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
         id: "219f47d2-905d-42ae-b920-b5dd53959752",
         type: "Basic",
         startDate: "15/01/2023",
@@ -78,7 +169,7 @@ const MembershipBody = () => {
     }, {
         name: "Harsha Javvaji",
         customerId: "219f47d2-905d-42ae-b920-b5dd53959752",
-        subscrptionId:"c89b7df9-949c-410c-85bf-f0a55b2077cf",
+        subscrptionId: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
         id: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
         type: "Basic",
         startDate: "15/01/2023",
@@ -88,7 +179,7 @@ const MembershipBody = () => {
     }, {
         name: "Chaitanya",
         customerId: "36fc7386-694d-4625-8868-abbe28b7ec1e",
-        subscrptionId:"c89b7df9-949c-410c-85bf-f0a55b2077cf",
+        subscrptionId: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
         type: "Basic",
         id: "24dc73a2-486b-4d17-885f-a83544bfc0b5",
         startDate: "15/01/2023",
@@ -98,7 +189,7 @@ const MembershipBody = () => {
     }, {
         name: "Arjun", // name, type & price should be displayed (should discuss)
         customerId: "8d52915f-75ff-469d-a483-29eedc09fdaf",
-        subscrptionId:"0c52070d-efea-4ff4-ad0b-c508e234fc02",
+        subscrptionId: "0c52070d-efea-4ff4-ad0b-c508e234fc02",
         type: "Super",
         id: "8386b066-8b8c-46a3-8754-fc10ab229581",
         startDate: "15/01/2023",
@@ -108,13 +199,7 @@ const MembershipBody = () => {
     }
     ])
 
-    const deleteMembership = (id) => {
-        setMemberships(memberships.filter(membership => membership.id != id))
-    }
-    
-    const updateMembership = (id)=>{
-        setIsDisplay(true)
-    }
+
 
     const [subscriptions, setSubscriptions] = useState([
         {
@@ -172,7 +257,7 @@ const MembershipBody = () => {
             <button className="btn btn-outline-secondary" type="submit">Search</button>
         </form>
         <MembershipsTable deleteMembership={deleteMembership} memberships={memberships} />
-        {isDisplay && <MembershipModal memberships={memberships} membership={membership} setMembership={setMembership} customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
+        {isDisplay && <MembershipModal createMembership={createMembership} memberships={memberships} membership={membership} setMembership={setMembership} customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
     </div>)
 }
 
