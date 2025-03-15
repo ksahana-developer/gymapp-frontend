@@ -1,20 +1,12 @@
 import { useEffect, useState } from "react";
-import { SlOptionsVertical } from "react-icons/sl";
 import { FaCreditCard } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import "./membershipsTable.css"
 import ActionsTool from "../ActionsTool/ActionsTool";
 
 const MembershipsTable = ({ memberships, deleteMembership }) => {
 
-    const handleEdit = (e) => {
-        console.log(e)
-        console.log(e.target.value)
-        console.log('membership Updated')
-    }
-
-    // const handleDelete = () => {
-    //     console.log('membership deleted')
-        
-    // }
     return (
         <table className="table  my-4 mx-2 container-fluid border border-light">
             <thead>
@@ -39,13 +31,8 @@ const MembershipsTable = ({ memberships, deleteMembership }) => {
                             <td>{membership?.price} </td>
                             <td>{membership?.status == "active" ? <span className="badge text-bg-success">{membership?.status}</span> : <span className="badge text-bg-danger">{membership?.status}</span>} </td>
                             {/* <td><SlOptionsVertical onClick={handleAction} /> </td> */}
-                            <td className="p-0">
-                                <div className="dropdown">
-                                    <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <SlOptionsVertical />
-                                    </button>
-                                    <ActionsTool id={membership.id} handleDelete={deleteMembership} handleEdit={handleEdit} />
-                                </div>
+                            <td>
+                                <ActionsTool id={membership.id} deleteMembership={deleteMembership} />
                             </td>
 
                         </tr>)

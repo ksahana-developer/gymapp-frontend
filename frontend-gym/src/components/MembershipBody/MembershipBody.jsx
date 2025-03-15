@@ -51,10 +51,10 @@ const MembershipBody = () => {
             branch: "Hyderabad",
             status: "newUser",
             password: "randomPassword",
-            id: "219f47d2-905d-42ae-b920-b5dd53959752"
+            id: "36fc7386-694d-4625-8868-abbe28b7ec1e"
         }, {
-            name: "Sahana",
-            email: "sahana@gmail.com",
+            name: "Arjun",
+            email: "arjun@gmail.com",
             role: "member",
             age: 23,
             phoneNo: "0932840832",
@@ -62,41 +62,49 @@ const MembershipBody = () => {
             status: "active",
             password: "randomPassword",
             activeSubscriptionId: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
-            id: "219f47d2-905d-42ae-b920-b5dd53959752"
+            id: "8d52915f-75ff-469d-a483-29eedc09fdaf"
         }
     ])
     const [memberships, setMemberships] = useState([{
         name: "Rajesh Wagle",
+        customerId: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
+        subscrptionId:"c89b7df9-949c-410c-85bf-f0a55b2077cf",
         id: "219f47d2-905d-42ae-b920-b5dd53959752",
-        type: "Super",
+        type: "Basic",
         startDate: "15/01/2023",
         endDate: "15/06/2025",
-        price: 5000,
+        price: "5000",
         status: "active"
     }, {
         name: "Harsha Javvaji",
+        customerId: "219f47d2-905d-42ae-b920-b5dd53959752",
+        subscrptionId:"c89b7df9-949c-410c-85bf-f0a55b2077cf",
         id: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
-        type: "Premium",
+        type: "Basic",
         startDate: "15/01/2023",
         endDate: "15/01/2026",
-        price: 8000,
+        price: "5000",
         status: "active"
     }, {
-        name: "Vasant",
+        name: "Chaitanya",
+        customerId: "36fc7386-694d-4625-8868-abbe28b7ec1e",
+        subscrptionId:"c89b7df9-949c-410c-85bf-f0a55b2077cf",
         type: "Basic",
         id: "24dc73a2-486b-4d17-885f-a83544bfc0b5",
         startDate: "15/01/2023",
         endDate: "15/04/2025",
-        price: 3000,
+        price: "5000",
         status: "active"
     }, {
-        name: "Arjun",
+        name: "Arjun", // name, type & price should be displayed (should discuss)
+        customerId: "8d52915f-75ff-469d-a483-29eedc09fdaf",
+        subscrptionId:"0c52070d-efea-4ff4-ad0b-c508e234fc02",
         type: "Super",
         id: "8386b066-8b8c-46a3-8754-fc10ab229581",
         startDate: "15/01/2023",
         endDate: "15/01/2024",
-        price: 5000,
-        status: "epired"
+        price: "7000",
+        status: "expired"
     }
     ])
 
@@ -120,7 +128,7 @@ const MembershipBody = () => {
         {
             amount: "7000",
             isActive: true,
-            id: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
+            id: "0c52070d-efea-4ff4-ad0b-c508e234fc02",
             name: "Super",
             validity: "5m",
             type: "Subscription"
@@ -128,7 +136,7 @@ const MembershipBody = () => {
         {
             amount: "10000",
             isActive: true,
-            id: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
+            id: "bc373cf5-b7f3-43f5-be75-8b6797c73c0e",
             name: "Silver",
             validity: "7m",
             type: "Subscription"
@@ -136,7 +144,7 @@ const MembershipBody = () => {
         {
             amount: "15000",
             isActive: true,
-            id: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
+            id: "0d0ee5df-c18c-46e8-9586-59ca84a85f33",
             name: "Gold",
             validity: "18m",
             type: "Subscription"
@@ -144,7 +152,7 @@ const MembershipBody = () => {
         {
             amount: "17000",
             isActive: true,
-            id: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
+            id: "59d02dbd-d988-43be-8290-baf561ab7c7b",
             name: "Premium",
             validity: "24m",
             type: "Subscription"
@@ -164,7 +172,7 @@ const MembershipBody = () => {
             <button className="btn btn-outline-secondary" type="submit">Search</button>
         </form>
         <MembershipsTable deleteMembership={deleteMembership} memberships={memberships} />
-        {isDisplay && <MembershipModal setMembership={setMembership} customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
+        {isDisplay && <MembershipModal memberships={memberships} membership={membership} setMembership={setMembership} customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
     </div>)
 }
 

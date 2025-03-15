@@ -1,8 +1,44 @@
 import "./membershipmodal.css"
 import { IoMdClose } from "react-icons/io";
 
-const MembershipModal = ({ closeModal, customers, subscriptions, setMembership }) => {
+const MembershipModal = ({ closeModal, customers, subscriptions, setMembership, membership, memberships }) => {
     // centered-content is className for centering the content (like a modal)
+
+    const handleSave = () => {
+        if ((membership.customerId && membership.type && membership.subscrptionId && membership.name) && (membership.customerId != "" && membership.subscrptionId != "" && membership.name != "" && membership.type != "")) {
+            // api call for creating customerSubscription
+            // should wait for creation, bcoz other fields like expiryStatus needs to be updated (comes from backend)
+            console.log('membership created successfully')
+        }
+        else {
+            alert("Please fill all the necessary fields") // have to show alert component instead of alert (violation :- onClick event delayed bcoz of this alert)
+        }
+    }
+
+    const chooseCustomer = (e) => {
+        console.log(e.target.value, 'customer')
+        if (e.target.value == "") {
+            setMembership({ ...membership, name: "", customerId: "" })
+        }
+        else {
+            console.log(e.target.value)
+            const custId = e.target.value
+            const filteredCustomer = customers.filter((cust) => cust.id == custId)
+            setMembership({ ...membership, name: filteredCustomer[0].name, customerId: custId })
+        }
+    }
+
+    const choosePlan = (e) => {
+        console.log(e.target.value, 'plan')
+        if (e.target.value == "") {
+            setMembership({ ...membership, subscrptionId: "", type: "" })
+        }
+        else {
+            const planId = e.target.value
+            const filteredPlan = subscriptions.filter((subs) => subs.id == planId)
+            setMembership({ ...membership, subscrptionId: planId, type: filteredPlan[0].name })
+        }
+    }
 
     //should write the logic to get the values from the form and set it 
     // to membership obj, using setMembership prop
@@ -18,8 +54,8 @@ const MembershipModal = ({ closeModal, customers, subscriptions, setMembership }
 
             <div className="mb-3 mt-2">
                 <label htmlFor="custList" className="form-label">Customer</label>
-                <select id="custList" className="form-select">
-                    <option value="" selected>Select a customer</option>
+                <select id="custList" onChange={chooseCustomer} value={membership.customerId} className="form-select">
+                    <option value="">Select a customer</option>
                     {
                         customers.map((customer, index) => {
                             return <option key={customer.id} value={customer.id}>{customer.name} </option>
@@ -29,8 +65,8 @@ const MembershipModal = ({ closeModal, customers, subscriptions, setMembership }
             </div>
             <div className="mb-3">
                 <label htmlFor="subsList" className="form-label">Membership Type</label>
-                <select id="subsList" className="form-select">
-                    <option value="" selected>Select a subscription</option>
+                <select id="subsList" onChange={choosePlan} value={membership.subscrptionId} className="form-select">
+                    <option value="">Select a subscription</option>
                     {
                         subscriptions.map((subs, ind) => {
                             return <option key={subs.id} value={subs.id}>{subs.name}-{subs.validity} </option>
@@ -38,12 +74,12 @@ const MembershipModal = ({ closeModal, customers, subscriptions, setMembership }
                     }
                 </select>
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
                 <label htmlFor="startDateId" className="form-label">Start Date</label>
                 <input id="startDateId" className="form-control" type="datetime-local" />
-            </div>
+            </div> */}
             <div className="d-flex justify-content-end">
-                <button onClick={closeModal} className="btn btn-secondary">Add Membership</button>
+                <button onClick={handleSave} className="btn btn-secondary">Add Membership</button>
             </div>
         </div>
     )
