@@ -27,7 +27,7 @@ const MembershipsTable = ({ memberships, deleteMembership }) => {
                             <td>{membership?.name} </td>
                             <td>{<FaCreditCard color="grey" />} {membership?.type} </td>
                             <td>{membership?.startDate} </td>
-                            <td>{membership?.endDate} </td>
+                            <td>{membership?.expiryDate ? (new Date(membership?.expiryDate).toLocaleString()).split(',')[0]: "Not yet activated"}</td>
                             <td>{membership?.price} </td>
                             <td>{membership?.status == "active" ? <span className="badge text-bg-success">{membership?.status}</span> : <span className="badge text-bg-danger">{membership?.status}</span>} </td>
                             {/* <td><SlOptionsVertical onClick={handleAction} /> </td> */}
