@@ -6,9 +6,9 @@ const AddCustomerModal = ({ closeModal }) => {
   return (
     <div
       className="centered-content d-flex flex-column"
-      style={{ fontWeight: "600" }}
+      style={{ fontWeight: "600", fontSize:"14px" }}
     >
-      <div className="d-flex mb-2 justify-content-between">
+      <div className="d-flex mb-1 justify-content-between">
         <div className="d-flex flex-column">
           <span style={{ fontWeight: "bold" }}>Add New Customer</span>
           <span>Enter the details for the new customer.</span>
@@ -18,13 +18,13 @@ const AddCustomerModal = ({ closeModal }) => {
         </Link>
       </div>
       <form>
-        <div className="mb-2">
+        <div>
           <label for="name" className="form-label">
             Name
           </label>
           <input type="text" className="form-control" id="name" />
         </div>
-        <div className="mb-2">
+        <div >
           <label for="exampleInputEmail1" className="form-label">
             Email
           </label>
@@ -35,7 +35,7 @@ const AddCustomerModal = ({ closeModal }) => {
             aria-describedby="emailHelp"
           />
         </div>
-        <div className="mb-2">
+        <div >
           <label for="exampleInputPassword1" className="form-label">
             Password
           </label>
@@ -45,20 +45,30 @@ const AddCustomerModal = ({ closeModal }) => {
             id="exampleInputPassword1"
           />
         </div>
-        <div className="mb-2">
+        <div >
+          <label for="exampleInputPassword1" className="form-label">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+          />
+        </div>
+        <div >
           <label for="mobile-number" className="form-label">
             Phone Number
           </label>
           <input type="number" className="form-control" id="mobile-number" />
         </div>
         <div className="d-flex gap-3">
-          <div className="mb-2">
+          <div >
             <label for="age" className="form-label">
               Date of Birth
             </label>
             <input type="number" className="form-control" id="age" />
           </div>
-          <div class="mb-2">
+          <div class="mb-1">
             <label for="disabledSelect" class="form-label">
               Role
             </label>
@@ -68,7 +78,7 @@ const AddCustomerModal = ({ closeModal }) => {
             </select>
           </div>
         </div>
-        <div class="mb-2">
+        <div class="mb-1">
           <label for="disabledSelect" class="form-label">
             Branch
           </label>

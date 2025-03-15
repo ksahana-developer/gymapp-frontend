@@ -10,6 +10,9 @@ const CustomersBody = () => {
             phoneNo: "(555) 123-4567",
             startDate : "1/15/2023",
             status: "Active",
+            branch: "gurgaon",
+            dateOfBirth: "04-12-2001",
+            role: "Member",
         },
         {
             name: "Chaitanya",
@@ -17,6 +20,9 @@ const CustomersBody = () => {
             phoneNo: "(555) 123-4567",
             startDate : "1/15/2023",
             status: "Active",
+            branch: "gurgaon",
+            dateOfBirth: "04-12-2001",
+            role: "Member",
         },
         {
             name: "Mohi",
@@ -24,6 +30,9 @@ const CustomersBody = () => {
             phoneNo: "(555) 123-4567",
             startDate : "1/15/2023",
             status: "Active",
+            branch: "gurgaon",
+            dateOfBirth: "04-12-2001",
+            role: "Member",
         },
         {
             name: "Sainath",
@@ -31,6 +40,9 @@ const CustomersBody = () => {
             phoneNo: "(555) 123-4567",
             startDate : "1/15/2023",
             status: "Inactive",
+            branch: "gurgaon",
+            dateOfBirth: "04-12-2001",
+            role: "Member",
         },
         {
             name: "Cbum",
@@ -38,13 +50,19 @@ const CustomersBody = () => {
             phoneNo: "(555) 123-4567",
             startDate : "1/15/2023",
             status: "Active",
+            branch: "gurgaon",
+            dateOfBirth: "04-12-2001",
+            role: "Member",
         },
         {
-            name: "Saahana",
+            name: "Sahanam",
             email : "test1111@gmail.com",
             phoneNo: "(555) 123-4567",
             startDate : "1/15/2023",
             status: "Expired",
+            branch: "gurgaon",
+            dateOfBirth: "03-04-2001",
+            role: "Member",
         }
     ]);
     const [ isDisplay, setIsDisplay] = useState(false)

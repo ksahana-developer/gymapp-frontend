@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { FaUserLarge } from "react-icons/fa6";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
+import { useState } from "react";
+import EditCustomerModal from "../EditCustomerModal/EditCustomerModal";
+import DeleteCustomerModal from "../DeleteCustomerModal/DeleteCustomerModal";
 
 const CustomersTable = ({ customers }) => {
   const getStyleByStatus = (status) => {
@@ -23,6 +26,30 @@ const CustomersTable = ({ customers }) => {
         };
     }
   };
+  const [isDisplayEdit, setIsDisplayEdit] = useState(false);
+  const [isDisplayDelete, setIsDisplayDelete] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const openEditModal = (customer) => {
+    if(!isDisplayDelete){
+      setSelectedCustomer(customer)
+      setIsDisplayEdit(true)
+    }
+  }
+  const closeEditModal = () => {
+    setIsDisplayEdit(false)
+    setSelectedCustomer(null)
+  }
+  const openDeleteModal = (customer) => {
+    if(!isDisplayEdit){
+      setSelectedCustomer(customer)
+      setIsDisplayDelete(true)
+    }
+    
+  }
+  const closeDeleteModal = () => {
+    setIsDisplayDelete(false)
+    setSelectedCustomer(null)
+  }
   return (
     <div
       className="container-fluid"
@@ -87,10 +114,10 @@ const CustomersTable = ({ customers }) => {
               <td style={{ padding: "16px" }}>
                 <div className="d-flex gap-2">
                   <Link>
-                    <CiEdit style={{color:"black"}}/>
+                    <CiEdit onClick={() => openEditModal(customer)} style={{color:"black"}}/>
                   </Link>
                   <Link>
-                  <MdDeleteOutline style={{color:"red"}}/>
+                  <MdDeleteOutline onClick={() => openDeleteModal(customer)} style={{color:"red"}}/>
                   </Link>
                 </div>
               </td>
@@ -99,6 +126,8 @@ const CustomersTable = ({ customers }) => {
         </tbody>
       </table>
       ;
+      {isDisplayEdit && <EditCustomerModal customer= {selectedCustomer} closeEditModal = {closeEditModal}/>}
+      {isDisplayDelete && <DeleteCustomerModal customer= {selectedCustomer} closeDeleteModal = {closeDeleteModal} />}
     </div>
   );
 };
