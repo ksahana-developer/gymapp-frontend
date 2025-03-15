@@ -1,6 +1,7 @@
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { FaUserLarge } from "react-icons/fa6";
+import { CiEdit } from "react-icons/ci";
+import { MdDeleteOutline } from "react-icons/md";
 
 const CustomersTable = ({ customers }) => {
   const getStyleByStatus = (status) => {
@@ -61,12 +62,10 @@ const CustomersTable = ({ customers }) => {
                 }}
               >
                 <div className="d-flex align-items-start">
-                    <div>
+                  <div>
                     <FaUserLarge />
-                    </div>
-                    <div>
-                    {customer.name}
-                    </div>
+                  </div>
+                  <div>{customer.name}</div>
                 </div>
               </td>
               <td style={{ padding: "16px" }}>{customer.email}</td>
@@ -86,9 +85,14 @@ const CustomersTable = ({ customers }) => {
                 </div>
               </td>
               <td style={{ padding: "16px" }}>
-                <Link>
-                  <BsThreeDotsVertical color="black"/>
-                </Link>
+                <div className="d-flex gap-2">
+                  <Link>
+                    <CiEdit style={{color:"black"}}/>
+                  </Link>
+                  <Link>
+                  <MdDeleteOutline style={{color:"red"}}/>
+                  </Link>
+                </div>
               </td>
             </tr>
           ))}
