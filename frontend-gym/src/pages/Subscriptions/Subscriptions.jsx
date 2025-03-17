@@ -1,9 +1,9 @@
 import SubscriptionBody from "../../components/SubscriptionBody/SubscriptionBody";
 
 
-const Subscriptions = ()=>{
+const Subscriptions = () => {
     return <div>
-        <SubscriptionBody/>
+        <SubscriptionBody />
     </div>
 }
 

@@ -1,7 +1,7 @@
 import { FaCreditCard } from "react-icons/fa";
 import ActionsSubscriptions from "../ActionsSubscriptions/ActionsSubscriptions";
 
-const SubscriptionsTable = ({deleteSubscription, updateSubscription, subscriptions, subscription, setIsDisplay, setIsUpdate, setSubscription } ) => {
+const SubscriptionsTable = ({ deleteSubscription, updateSubscription, subscriptions, subscription, setIsDisplay, setIsUpdate, setSubscription }) => {
 
     return (<table className="table  my-4 mx-2 container-fluid border border-light">
         <thead>
@@ -21,9 +21,6 @@ const SubscriptionsTable = ({deleteSubscription, updateSubscription, subscriptio
                         <td>{<FaCreditCard color="grey" />} {subs?.amount} </td>
                         <td>{subs?.validity} </td>
                         <td>{subs?.isActive == "true" ? "active" : "not-active"}</td>
-                        {/* <td>{membership?.price} </td>
-                        <td>{membership?.status == "active" ? <span className="badge text-bg-success">{membership?.status}</span> : <span className="badge text-bg-danger">{membership?.status}</span>} </td> */}
-                        {/* <td><SlOptionsVertical onClick={handleAction} /> </td> */}
                         <td>
                             <ActionsSubscriptions setSubscription={setSubscription} subscriptions={subscriptions} setIsUpdate={setIsUpdate} id={subs.id} deleteSubscription={deleteSubscription} updateSubscription={updateSubscription} subscription={subscription} setIsDisplay={setIsDisplay} />
                         </td>

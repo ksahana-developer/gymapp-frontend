@@ -9,10 +9,8 @@ const SubscriptionsModal = ({ closeModal, subscriptions, createSubscription, upd
     }
 
     const handleClick = () => {
-        if(isUpdate){
+        if (isUpdate) {
             if ((subscription.name && subscription.validity && subscription.amount && subscription.isActive) && (subscription.name != "" && subscription.isActive != "" && subscription.validity != "" && subscription.amount != "")) {
-                // api call for creating customerSubscription
-                // should wait for creation, bcoz other fields like expiryStatus needs to be updated (comes from backend)
                 updateSubscription(subscription)
                 console.log('subscription updated successfully')
                 closeModal()
@@ -21,10 +19,8 @@ const SubscriptionsModal = ({ closeModal, subscriptions, createSubscription, upd
                 alert("Please fill all the necessary fields") // have to show alert component instead of alert (violation :- onClick event delayed bcoz of this alert)
             }
         }
-        else{
+        else {
             if ((subscription.name && subscription.validity && subscription.amount && subscription.isActive) && (subscription.name != "" && subscription.isActive != "" && subscription.validity != "" && subscription.amount != "")) {
-                // api call for creating customerSubscription
-                // should wait for creation, bcoz other fields like expiryStatus needs to be updated (comes from backend)
                 createSubscription(subscription)
                 console.log('subscription created successfully')
                 closeModal()
@@ -33,14 +29,14 @@ const SubscriptionsModal = ({ closeModal, subscriptions, createSubscription, upd
                 alert("Please fill all the necessary fields") // have to show alert component instead of alert (violation :- onClick event delayed bcoz of this alert)
             }
         }
-        
+
     }
 
     return (
         <div className="centered-content d-flex flex-column">
             <div className="d-flex">
                 <div className="d-flex flex-column">
-                    <h5>{isUpdate ? "Update Subscription": "Add New Subscription"}</h5>
+                    <h5>{isUpdate ? "Update Subscription" : "Add New Subscription"}</h5>
                     <span className="text-secondary" >Enter the details for the new subscription.</span>
                 </div>
                 <IoMdClose onClick={closeModal} />
@@ -63,8 +59,6 @@ const SubscriptionsModal = ({ closeModal, subscriptions, createSubscription, upd
             <div className="mb-3">
                 <label htmlFor="subsStatus" className="form-label">Status</label>
                 <select value={subscription?.isActive} name="isActive" onChange={handleChange} id="subsStatus"
-                    // onChange={choosePlan} 
-                    // value={membership.subscriptionId} 
                     className="form-select">
                     <option value="">Select a subscription</option>
                     <option value={true} >active</option>

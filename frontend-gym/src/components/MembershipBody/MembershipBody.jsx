@@ -15,9 +15,7 @@ const MembershipBody = () => {
     }
 
     const [membership, setMembership] = useState({})
-    // const createMembership = (memb)=>{
-    //     setMembership(memb)
-    // }
+
     const [customers, setCustomers] = useState([
         {
             name: "Rajesh Wagle",

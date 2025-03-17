@@ -1,13 +1,11 @@
 import "./membershipmodal.css"
 import { IoMdClose } from "react-icons/io";
 
-const MembershipModal = ({createMembership, closeModal, customers, subscriptions, setMembership, membership, memberships }) => {
+const MembershipModal = ({ createMembership, closeModal, customers, subscriptions, setMembership, membership, memberships }) => {
     // centered-content is className for centering the content (like a modal)
 
     const handleSave = () => {
         if ((membership.customerId && membership.type && membership.subscriptionId && membership.name) && (membership.customerId != "" && membership.subscriptionId != "" && membership.name != "" && membership.type != "")) {
-            // api call for creating customerSubscription
-            // should wait for creation, bcoz other fields like expiryStatus needs to be updated (comes from backend)
             createMembership(membership)
             console.log('membership created successfully')
         }
@@ -75,10 +73,7 @@ const MembershipModal = ({createMembership, closeModal, customers, subscriptions
                     }
                 </select>
             </div>
-            {/* <div className="mb-3">
-                <label htmlFor="startDateId" className="form-label">Start Date</label>
-                <input id="startDateId" className="form-control" type="datetime-local" />
-            </div> */}
+
             <div className="d-flex justify-content-end">
                 <button onClick={handleSave} className="btn btn-secondary">Add Membership</button>
             </div>

@@ -10,7 +10,6 @@ const ActionsSubscriptions = ({ setSubscription, subscriptions, id, deleteSubscr
     const handleUpdate = () => {
         setIsDisplay(true)
         setIsUpdate(true)
-        // updateSubscription(id, subscription)
         const subs = subscriptions.filter(subs => subs.id == id)
         console.log(subs)
         setSubscription(subs[0])
