@@ -7,26 +7,22 @@ import Customers from './pages/Customers/Customers';
 import Subscriptions from './pages/Subscriptions/Subscriptions';
 import Memberships from './pages/Memberships/Memberships';
 import Profile from './pages/Profile/Profile';
+import Login from './pages/Login/Login';
 
 function App() {
   return (<Router >
     <div>
-      <Navbar/>
-
+      {localStorage.getItem('token') && <Navbar />}
       <Routes>
+        {<Route path="/login" element={<Login />} />}
         <Route path="/" element={<Home />} />
         <Route path="/customers" element={<Customers />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/memberships" element={<Memberships />} />
         <Route path="/profile" element={<Profile />} />
-        
-        
-        
-        {/* <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} /> */}
       </Routes>
     </div>
-      </Router >
+  </Router >
   );
 }
 
