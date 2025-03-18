@@ -1,10 +1,26 @@
 import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
+import { useState } from "react";
 const DeleteCustomerModal = ({customer, closeDeleteModal }) => {
-    const deleteCustomer = () => {
-        return{
-            
+  const customerId = customer.id;
+  console.log(customerId)
+  const [ message, setMessage ] = useState("");
+    const deleteCustomer = async (customerId) => {
+      // e.preventDefault();
+      try {
+        const response  = await fetch(`http://localhost:5000/api/customers/${customerId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type" : "application/json",
+            "token" : localStorage.getItem("token")
+          }
+        })
+        if(response.status === 204){
+          setMessage("User deleted successfully")
         }
+      } catch (error) {
+        console.log(error)
+      }
     }
   return (
     <div
@@ -21,7 +37,7 @@ const DeleteCustomerModal = ({customer, closeDeleteModal }) => {
           <button type="button" class="btn btn-light">
             Cancel
           </button>
-          <button type="button" class="btn btn-danger" onClick={deleteCustomer}>
+          <button type="button" class="btn btn-danger" onClick={() => deleteCustomer(customerId)}>
             Delete
           </button>
         </div>

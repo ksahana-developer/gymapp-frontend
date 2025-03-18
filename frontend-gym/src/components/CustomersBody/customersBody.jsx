@@ -1,80 +1,46 @@
 import { TiUserAdd } from "react-icons/ti";
 import CustomersTable from "../CustomersTable/customersTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import AddCustomerModal from "../AddCustomerModal/addCustomerModal";
 const CustomersBody = () => {
-    const [customers, setCustomers] = useState([
-        {
-            name: "Harsha",
-            email : "test123@gmail.com",
-            phoneNo: "(555) 123-4567",
-            startDate : "1/15/2023",
-            status: "Active",
-            branch: "gurgaon",
-            dateOfBirth: "04-12-2001",
-            role: "Member",
+  const [message, setMessage] = useState("");
+  const [customers, setCustomers] = useState([]);
+
+  const getCustomers = async (e) => {
+    const token = localStorage.getItem("token");
+    // console.log(token)
+    try {
+      const response = await fetch("http://localhost:5000/api/customers", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token: localStorage.getItem("token"),
         },
-        {
-            name: "Chaitanya",
-            email : "test123@gmail.com",
-            phoneNo: "(555) 123-4567",
-            startDate : "1/15/2023",
-            status: "Active",
-            branch: "gurgaon",
-            dateOfBirth: "04-12-2001",
-            role: "Member",
-        },
-        {
-            name: "Mohi",
-            email : "test123@gmail.com",
-            phoneNo: "(555) 123-4567",
-            startDate : "1/15/2023",
-            status: "Active",
-            branch: "gurgaon",
-            dateOfBirth: "04-12-2001",
-            role: "Member",
-        },
-        {
-            name: "Sainath",
-            email : "test123@gmail.com",
-            phoneNo: "(555) 123-4567",
-            startDate : "1/15/2023",
-            status: "Inactive",
-            branch: "gurgaon",
-            dateOfBirth: "04-12-2001",
-            role: "Member",
-        },
-        {
-            name: "Cbum",
-            email : "test123@gmail.com",
-            phoneNo: "(555) 123-4567",
-            startDate : "1/15/2023",
-            status: "Active",
-            branch: "gurgaon",
-            dateOfBirth: "04-12-2001",
-            role: "Member",
-        },
-        {
-            name: "Sahanam",
-            email : "test1111@gmail.com",
-            phoneNo: "(555) 123-4567",
-            startDate : "1/15/2023",
-            status: "Expired",
-            branch: "gurgaon",
-            dateOfBirth: "03-04-2001",
-            role: "Member",
-        }
-    ]);
-    const [ isDisplay, setIsDisplay] = useState(false)
-    const openModal = () => {
-        setIsDisplay(true)
+      });
+      const data = await response.json();
+      setCustomers(data.customers);
+    } catch (error) {
+      console.log(error);
+      setMessage(error.response?.message);
     }
-    const closeModal = () => {
-        setIsDisplay(false)
-    }
-   return (
+  };
+  useEffect(() => {
+    getCustomers();
+  }, []);
+  const [isDisplay, setIsDisplay] = useState(false);
+  const openModal = () => {
+    setIsDisplay(true);
+  };
+  const closeModal = () => {
+    setIsDisplay(false);
+  };
+  return (
     <div className="container-fluid">
-      <div className="d-flex justify-content-between align-items-center" style={{fontFamily:"sans-serif"}}>
+      <div
+        className="d-flex justify-content-between align-items-center"
+        style={{ fontFamily: "sans-serif" }}
+      >
         <div className="flex-column">
           <h2>Customers</h2>
           <span>Manage your gym customers</span>
@@ -87,13 +53,19 @@ const CustomersBody = () => {
         </button>
       </div>
       <form className="d-flex pt-2 container-fluid" role="search">
-        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button className="btn btn-outline-success" type="submit">Search</button>
+        <input
+          className="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button className="btn btn-outline-success" type="submit">
+          Search
+        </button>
       </form>
-      <CustomersTable customers= {customers} />
-        {isDisplay && <AddCustomerModal closeModal= {closeModal}/>}
+      <CustomersTable customers={customers} />
+      {isDisplay && <AddCustomerModal closeModal={closeModal} />}
     </div>
-    
   );
 };
 

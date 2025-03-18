@@ -67,9 +67,9 @@ const CustomersTable = ({ customers }) => {
             <th style={{ fontWeight: "200" }} scope="col">
               Phone
             </th>
-            <th style={{ fontWeight: "200" }} scope="col">
+            {/* <th style={{ fontWeight: "200" }} scope="col">
               Start Date
-            </th>
+            </th> */}
             <th style={{ fontWeight: "200" }} scope="col">
               Status
             </th>
@@ -80,7 +80,7 @@ const CustomersTable = ({ customers }) => {
         </thead>
         <tbody>
           {customers.map((customer) => (
-            <tr style={{ fontFamily: "sans-serif", fontSize: "14px" }}>
+            <tr key = {customer.id} style={{ fontFamily: "sans-serif", fontSize: "14px" }}>
               <td
                 style={{
                   fontWeight: "bold",
@@ -97,7 +97,7 @@ const CustomersTable = ({ customers }) => {
               </td>
               <td style={{ padding: "16px" }}>{customer.email}</td>
               <td style={{ padding: "16px" }}>{customer.phoneNo}</td>
-              <td style={{ padding: "16px" }}>{customer.startDate}</td>
+              {/* <td style={{ padding: "16px" }}>{customer.startDate}</td> */}
               <td style={{ padding: "16px" }}>
                 <div
                   className="text-center"

@@ -3,11 +3,10 @@ import { RxCross2 } from "react-icons/rx";
 import "./EditCustomerModal.css";
 import { useEffect, useState } from "react";
 
-// Define state with empty strings
-// useEffect for updating the values that are got from the customer prop
-// HandleChange for the inputs use this in input onChange
 const EditCustomerModal = ({ customer, closeEditModal }) => {
+  const [message, setMessage] = useState("")
   const [formData, setFormData] = useState({
+    id: "",
     name: "",
     email: "",
     phoneNo: "",
@@ -21,6 +20,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
   useEffect(() => {
     if (customer) {
       setFormData({
+        id: customer.id || "",
         name: customer.name || "",
         email: customer.email || "",
         phoneNo: customer.phoneNo || "",
@@ -35,9 +35,41 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
 
   const handleChange = (e) => {
     setFormData({
-      ...formData, [e.target.name]: e.target.value
+      ...formData,
+      [e.target.name]: e.target.value,
     });
-  }
+  };
+  const customerId = customer.id;
+  const updateUser = async (customerId, updatedFormData) => {
+    console.log(customerId, "12344")
+    console.log(updatedFormData, "data")
+    // e.preventDefault();
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/customers/${customerId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            token: localStorage.getItem("token"),
+          },
+          body: JSON.stringify(updatedFormData)
+        }
+      )
+      const data = await response.json()
+      if (response.status == 200) {
+        setMessage("User updated successfully");
+        setTimeout(() => {
+          setMessage("");
+          closeEditModal();
+        }, 3000);
+      } else {
+        setMessage("User update failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className="centered-content d-flex flex-column"
@@ -52,14 +84,14 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
           <RxCross2 />
         </Link>
       </div>
-      <form>
+      {/* <form> */}
         <div className="mb-2">
           <label for="name" className="form-label">
             Name
           </label>
           <input
             type="text"
-            name = "name"
+            name="name"
             className="form-control"
             id="name"
             value={formData.name}
@@ -72,7 +104,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
           </label>
           <input
             type="email"
-            name = "email"
+            name="email"
             className="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
@@ -87,7 +119,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
           {/* change from text to number later */}
           <input
             type="text"
-            name = "phoneNo"
+            name="phoneNo"
             className="form-control"
             id="mobile-number"
             onChange={handleChange}
@@ -104,7 +136,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
               type="text"
               className="form-control"
               id="age"
-              name = "dateOfBirth"
+              name="dateOfBirth"
               onChange={handleChange}
               value={formData.dateOfBirth}
             />
@@ -116,7 +148,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
             <select
               id="disabledSelect"
               class="form-select"
-              name = "role"
+              name="role"
               onChange={handleChange}
               value={formData.role}
             >
@@ -132,7 +164,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
           <select
             id="disabledSelect"
             class="form-select"
-            name = "branch"
+            name="branch"
             onChange={handleChange}
             value={formData.branch}
           >
@@ -142,11 +174,20 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
           </select>
         </div>
         <div className="d-flex justify-content-end">
-          <button type="submit" className="btn btn-primary">
+          <button className="btn btn-primary" onClick={() => updateUser(customerId, formData)}>
             Edit Customer
           </button>
         </div>
-      </form>
+      {/* </form> */}
+      {message && (
+        <div
+          className={`alert ${message.includes(
+            "successfully"
+          )? "alert-success" : "alert-danger"}`}
+        >
+          {message}
+        </div>
+      )}
     </div>
   );
 };
