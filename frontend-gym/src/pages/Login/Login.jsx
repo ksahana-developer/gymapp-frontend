@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./login.css"
 import { useNavigate } from "react-router-dom"
 
-const Login = () => {
+const Login = ({setIsLoggedIn}) => {
     const navigate = useNavigate()
     const [cred, setCred] = useState({})
     const handleChange = (e) => {
@@ -26,6 +26,7 @@ const Login = () => {
             localStorage.setItem("token", data.token)
             if (response.status == 200) {
                 navigate("/memberships")
+                setIsLoggedIn(true)
             }
         } catch (error) {
             navigate("/login")

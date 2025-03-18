@@ -8,13 +8,18 @@ import Subscriptions from './pages/Subscriptions/Subscriptions';
 import Memberships from './pages/Memberships/Memberships';
 import Profile from './pages/Profile/Profile';
 import Login from './pages/Login/Login';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  useEffect(()=>{
+    setIsLoggedIn(!!localStorage.getItem('token'))
+  },[])
   return (<Router >
     <div>
-      {localStorage.getItem('token') && <Navbar />}
+      {isLoggedIn && <Navbar setIsLoggedIn={setIsLoggedIn} />}
       <Routes>
-        {<Route path="/login" element={<Login />} />}
+        {<Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />}
         <Route path="/" element={<Home />} />
         <Route path="/customers" element={<Customers />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
