@@ -125,7 +125,6 @@ const CustomersTable = ({ customers }) => {
           ))}
         </tbody>
       </table>
-      ;
       {isDisplayEdit && <EditCustomerModal customer= {selectedCustomer} closeEditModal = {closeEditModal}/>}
       {isDisplayDelete && <DeleteCustomerModal customer= {selectedCustomer} closeDeleteModal = {closeDeleteModal} />}
     </div>
