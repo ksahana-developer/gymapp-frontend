@@ -1,7 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CgGym } from 'react-icons/cg';
 import { FaRegUserCircle } from 'react-icons/fa';
-const Navbar = () => {
+const Navbar = ({setIsLoggedIn}) => {
+  const navigate = useNavigate()
+  
+  const logout = ()=>{
+    localStorage.removeItem('token')
+    setIsLoggedIn(false)
+    navigate("/login")
+  }
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
@@ -20,6 +27,7 @@ const Navbar = () => {
       </div>
       <ul className="nav justify-content-end">
           <li className="nav-item">
+            <button onClick={logout} className="btn btn-danger">Logout</button>
             <Link className="nav-link active" aria-current="page" to="/profile"><FaRegUserCircle size={30} color='grey' /></Link>
           </li>
         </ul>
