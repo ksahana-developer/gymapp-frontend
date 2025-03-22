@@ -1,8 +1,66 @@
 import { LuUsers } from "react-icons/lu";
 import "./SignUp.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+// import registerCustomer from "../AddCustomerModal/addCustomerModal"
 
 const SignUp = () => {
+  const [message, setMessage] = useState("");
+  const [formData , setFormData] = useState(
+    {
+      name : "",
+      email : "",
+      password: "",
+      confirmPassword : "",
+      phoneNo: "",
+      dateOfBirth : "",
+      role: "Member", // Set default value
+      branch: "Gurgaon", // Set default value
+    })
+    const handleChange = (e) => {
+      setFormData({...formData, [e.target.name]: e.target.value})
+    }
+
+    const signUpCustomer = async (e) => {
+      e.preventDefault();
+
+      if(formData.password !== formData.confirmPassword){
+        setMessage("Enter the same password")
+        return
+      }
+        try {
+          const response = await fetch("http://localhost:5000/api/customers/register", {
+            method: "POST",
+          headers : {"Content-Type" : "application/json"},
+          body: JSON.stringify(formData)
+          },
+        );
+
+        const data = await response.json()
+        if(response.status === 201){
+          setMessage("Sign up successful")
+          setFormData(
+            {
+              name : "",
+              email : "",
+              password: "",
+              confirmPassword : "",
+              phoneNo: "",
+              dateOfBirth : "",
+              role: "Member", // Set default value
+              branch: "Gurgaon", // Set default value
+            })
+            e.target.reset()
+          setTimeout(() => setMessage(''), 3000)
+        }else{
+          setMessage(data.message || "Sign up failed")
+        }
+        } catch (error) {
+          console.log(error)
+          setMessage("Failed to signUp")
+        }
+    }
+
   return (
     <div className="d-flex flex-column p-3 align-items-center">
       <div
@@ -20,7 +78,7 @@ const SignUp = () => {
           className="d-flex flex-column shadow p-3 mb-5 bg-white rounded"
           style={{ width: "90%", padding: "20px", borderRadius: "5px" }}
         >
-          <form style={{ padding: "20px" , borderRadius: "10px"}}>
+          <form style={{ padding: "20px", borderRadius: "10px" }} onSubmit={signUpCustomer}>
             <div>
               <label htmlFor="name" className="form-label">
                 Full Name
@@ -30,8 +88,8 @@ const SignUp = () => {
                 className="form-control"
                 id="name"
                 name="name"
-                // value={formData.name}
-                // onChange={handleChange}
+                value={formData.name}
+                onChange={handleChange}
                 placeholder="Enter your full name"
                 required
               />
@@ -46,8 +104,8 @@ const SignUp = () => {
                 id="email"
                 name="email"
                 placeholder="you@example.com"
-                // value={formData.email}
-                // onChange={handleChange}
+                value={formData.email}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -62,8 +120,8 @@ const SignUp = () => {
                 id="password"
                 name="password"
                 placeholder="Create a password"
-                // value={formData.password}
-                // onChange={handleChange}
+                value={formData.password}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -78,8 +136,8 @@ const SignUp = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 placeholder="Confirm your password"
-                // value={formData.confirmPassword}
-                // onChange={handleChange}
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -96,8 +154,8 @@ const SignUp = () => {
                 placeholder="Enter your mobile number"
                 pattern="[0-9]{10}"
                 maxLength={10}
-                // value={formData.phoneNo}
-                // onChange={handleChange}
+                value={formData.phoneNo}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -112,8 +170,8 @@ const SignUp = () => {
                   className="form-control"
                   id="dateOfBirth"
                   name="dateOfBirth"
-                  //   value={formData.dateOfBirth}
-                  //   onChange={handleChange}
+                    value={formData.dateOfBirth}
+                    onChange={handleChange}
                   required
                 />
               </div>
@@ -125,8 +183,8 @@ const SignUp = () => {
                   id="branch"
                   name="branch"
                   className="form-select"
-                  // value={formData.branch}
-                  // onChange={handleChange}
+                  value={formData.branch}
+                  onChange={handleChange}
                 >
                   <option value="Gurgaon">Gurgaon</option>
                   <option value="Ahmedabad">Ahmedabad</option>
@@ -146,6 +204,13 @@ const SignUp = () => {
               </span>
             </div>
           </form>
+          {message &&  (<div
+          className={`alert ${
+            message.includes("successfully") ? "alert-success" : "alert-danger"
+          }`}
+        >
+          {message}
+        </div>)}
         </div>
       </div>
     </div>
