@@ -1,10 +1,11 @@
 import { LuUsers } from "react-icons/lu";
 import "./SignUp.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 // import registerCustomer from "../AddCustomerModal/addCustomerModal"
 
 const SignUp = () => {
+  const navigate = useNavigate()
   const [message, setMessage] = useState("");
   const [formData , setFormData] = useState(
     {
@@ -38,7 +39,7 @@ const SignUp = () => {
 
         const data = await response.json()
         if(response.status === 201){
-          setMessage("Sign up successful")
+          setMessage("Sign up successfull")
           setFormData(
             {
               name : "",
@@ -200,14 +201,12 @@ const SignUp = () => {
             </div>
             <div className="d-flex justify-content-center mt-2">
               <span>
-                Already have an account? <Link>Sign in</Link>
+                Already have an account? <Link to='/login'>Sign in</Link>
               </span>
             </div>
           </form>
           {message &&  (<div
-          className={`alert ${
-            message.includes("successfully") ? "alert-success" : "alert-danger"
-          }`}
+          className={`alert ${message.includes('successfull')? "alert-success" : "alert-danger"}`}
         >
           {message}
         </div>)}
