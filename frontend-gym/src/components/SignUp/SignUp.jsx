@@ -1,66 +1,73 @@
 import { LuUsers } from "react-icons/lu";
 import "./SignUp.css";
+import { FiUser } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { MdAlternateEmail } from "react-icons/md";
+import { HiOutlineEye } from "react-icons/hi2";
+import { HiOutlineEyeOff } from "react-icons/hi";
+import { FaPhone } from "react-icons/fa6";
 // import registerCustomer from "../AddCustomerModal/addCustomerModal"
 
 const SignUp = () => {
-  const navigate = useNavigate()
+  const [passwordIcon, setPasswordIcon] = useState(false)
+  const [confirmPasswordIcon, setConfirmPasswordIcon] = useState(false)
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
-  const [formData , setFormData] = useState(
-    {
-      name : "",
-      email : "",
-      password: "",
-      confirmPassword : "",
-      phoneNo: "",
-      dateOfBirth : "",
-      role: "Member", // Set default value
-      branch: "Gurgaon", // Set default value
-    })
-    const handleChange = (e) => {
-      setFormData({...formData, [e.target.name]: e.target.value})
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phoneNo: "",
+    dateOfBirth: "",
+    role: "Member", // Set default value
+    branch: "Gurgaon", // Set default value
+  });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const signUpCustomer = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      setMessage("Enter the same password");
+      return;
     }
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/customers/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    const signUpCustomer = async (e) => {
-      e.preventDefault();
-
-      if(formData.password !== formData.confirmPassword){
-        setMessage("Enter the same password")
-        return
+      const data = await response.json();
+      if (response.status === 201) {
+        setMessage("Sign up successfull");
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          phoneNo: "",
+          dateOfBirth: "",
+          role: "Member", // Set default value
+          branch: "Gurgaon", // Set default value
+        });
+        e.target.reset();
+        setTimeout(() => setMessage(""), 3000);
+      } else {
+        setMessage(data.message || "Sign up failed");
       }
-        try {
-          const response = await fetch("http://localhost:5000/api/customers/register", {
-            method: "POST",
-          headers : {"Content-Type" : "application/json"},
-          body: JSON.stringify(formData)
-          },
-        );
-
-        const data = await response.json()
-        if(response.status === 201){
-          setMessage("Sign up successfull")
-          setFormData(
-            {
-              name : "",
-              email : "",
-              password: "",
-              confirmPassword : "",
-              phoneNo: "",
-              dateOfBirth : "",
-              role: "Member", // Set default value
-              branch: "Gurgaon", // Set default value
-            })
-            e.target.reset()
-          setTimeout(() => setMessage(''), 3000)
-        }else{
-          setMessage(data.message || "Sign up failed")
-        }
-        } catch (error) {
-          console.log(error)
-          setMessage("Failed to signUp")
-        }
+    } catch (error) {
+      console.log(error);
+      setMessage("Failed to signUp");
     }
+  };
 
   return (
     <div className="d-flex flex-column p-3 align-items-center">
@@ -79,26 +86,39 @@ const SignUp = () => {
           className="d-flex flex-column shadow p-3 mb-5 bg-white rounded"
           style={{ width: "90%", padding: "20px", borderRadius: "5px" }}
         >
-          <form style={{ padding: "20px", borderRadius: "10px" }} onSubmit={signUpCustomer}>
-            <div>
+          <form
+            style={{ padding: "15px", borderRadius: "10px" }}
+            onSubmit={signUpCustomer}
+          >
+              <div className="container">
               <label htmlFor="name" className="form-label">
                 Full Name
               </label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="form-label mt-2">
+                <div className="input-group">
+                  <span className="input-group-text" style={{backgroundColor: "white"}}>
+                    <FiUser />
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+              </div>
+
+            <div className="container">
+            <label htmlFor="email" className="form-label mt-2">
                 Email Address
               </label>
+              <div className="input-group">
+                <span className="input-group-text" style={{backgroundColor: "white"}}>
+                <MdAlternateEmail />
+                </span>
               <input
                 type="email"
                 className="form-control"
@@ -109,14 +129,16 @@ const SignUp = () => {
                 onChange={handleChange}
                 required
               />
-            </div>
+                </div>
+              </div>
 
-            <div>
+            <div className="container">
               <label htmlFor="password" className="form-label mt-2">
                 Password
               </label>
-              <input
-                type="password"
+              <div className="input-group">
+                <input
+                type={passwordIcon? "password" : "text"}
                 className="form-control"
                 id="password"
                 name="password"
@@ -125,14 +147,19 @@ const SignUp = () => {
                 onChange={handleChange}
                 required
               />
+              <button className="input-group-text" style={{backgroundColor: "white"}} onClick={() => setPasswordIcon(!passwordIcon)}>
+              {passwordIcon? <HiOutlineEye /> : <HiOutlineEyeOff />}
+                    </button>
+              </div>
             </div>
 
-            <div>
+            <div className="container">
               <label htmlFor="confirmPassword" className="form-label mt-2">
                 Confirm Password
               </label>
+              <div className="input-group">
               <input
-                type="password"
+                type= {confirmPasswordIcon? "password" : "text"}
                 className="form-control"
                 id="confirmPassword"
                 name="confirmPassword"
@@ -141,12 +168,20 @@ const SignUp = () => {
                 onChange={handleChange}
                 required
               />
+              <button className="input-group-text" style={{backgroundColor: "white"}} onClick={() => setConfirmPasswordIcon(!confirmPasswordIcon)}>
+                {confirmPasswordIcon? <HiOutlineEye /> : <HiOutlineEyeOff/>}
+              </button>
+              </div>
             </div>
 
-            <div className="mb-2">
+            <div className="container">
               <label htmlFor="phoneNo" className="form-label mt-2">
                 Phone Number
               </label>
+              <div className="input-group">
+                <span className="input-group-text" style={{backgroundColor: "white"}}> 
+                <FaPhone />
+                </span>
               <input
                 type="tel"
                 className="form-control"
@@ -159,11 +194,13 @@ const SignUp = () => {
                 onChange={handleChange}
                 required
               />
+              </div>
+              
             </div>
 
-            <div className="d-flex gap-3 justify-content-between">
+            <div className="container cursor-pointer">
               <div>
-                <label htmlFor="dateOfBirth" className="form-label">
+                <label htmlFor="dateOfBirth" className="form-label mt-2">
                   Date of Birth
                 </label>
                 <input
@@ -171,13 +208,14 @@ const SignUp = () => {
                   className="form-control"
                   id="dateOfBirth"
                   name="dateOfBirth"
-                    value={formData.dateOfBirth}
-                    onChange={handleChange}
+                  value={formData.dateOfBirth}
+                  onChange={handleChange}
                   required
                 />
               </div>
-              <div className="mb-1">
-                <label htmlFor="branch" className="form-label">
+            </div>
+            <div className="container mb-3">
+                <label htmlFor="branch" className="form-label mt-2">
                   Branch
                 </label>
                 <select
@@ -192,7 +230,6 @@ const SignUp = () => {
                   <option value="Chennai">Chennai</option>
                 </select>
               </div>
-            </div>
 
             <div className="d-flex justify-content-center mt-1">
               <button type="submit" className="btn btn-primary w-100">
@@ -201,15 +238,21 @@ const SignUp = () => {
             </div>
             <div className="d-flex justify-content-center mt-2">
               <span>
-                Already have an account? <Link to='/login'>Sign in</Link>
+                Already have an account? <Link to="/login">Sign in</Link>
               </span>
             </div>
           </form>
-          {message &&  (<div
-          className={`alert ${message.includes('successfull')? "alert-success" : "alert-danger"}`}
-        >
-          {message}
-        </div>)}
+          {message && (
+            <div
+              className={`alert ${
+                message.includes("successfull")
+                  ? "alert-success"
+                  : "alert-danger"
+              }`}
+            >
+              {message}
+            </div>
+          )}
         </div>
       </div>
     </div>

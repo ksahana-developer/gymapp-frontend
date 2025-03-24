@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom"
-import signUp from "../../components/SignUp/SignUp"
+import SignUp from "../../components/SignUp/SignUp"
+import { useEffect } from "react";
 
 
-const register = () => {
+const Register = () => {
     const navigate = useNavigate();
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -11,9 +12,9 @@ const register = () => {
     }, [navigate])
     return(
         <div>
-            <signUp />
+            <SignUp />
         </div>
     )
 }
 
-export default register;
+export default Register;
