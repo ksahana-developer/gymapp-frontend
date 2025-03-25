@@ -116,6 +116,10 @@ const Customer = () => {
                     </div>
                 </div>}
             </div>
+            <div className="d-flex flex-column border border-light border-3 p-4 rounded-2 mt-4">
+            <h4>Purshase History</h4>
+                    <p className="fs-6 text-secondary">Customer's personal contact details</p>
+            </div>
         </div>)
 }
 
