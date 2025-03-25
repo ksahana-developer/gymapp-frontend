@@ -6,6 +6,7 @@ import MembershipModal from "../MembershipModal/MembershipModal";
 
 const MembershipBody = () => {
     const [isDisplay, setIsDisplay] = useState(false)
+    const [memBookmark, setMemBookmark] = useState(null)
     const openModal = () => {
         setIsDisplay(true)
         console.log('opened modal')
@@ -16,53 +17,7 @@ const MembershipBody = () => {
 
     const [membership, setMembership] = useState({})
 
-    const [customers, setCustomers] = useState([
-        {
-            name: "Rajesh Wagle",
-            email: "rajesh@gmail.com",
-            role: "member",
-            age: 23,
-            phoneNo: "0932840832",
-            branch: "Gujarat",
-            status: "expired",
-            password: "randomPassword",
-            activeSubscriptionId: "219f47d2-905d-42ae-b920-b5dd53959752",
-            id: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93"
-        }, {
-            name: "Harsha Javvaji",
-            email: "harsha@gmail.com",
-            role: "member",
-            age: 23,
-            phoneNo: "0932840832",
-            branch: "Gujarat",
-            status: "active",
-            password: "randomPassword",
-            activeSubscriptionId: "46f1e197-0755-474f-93d8-1096f5eeb138",
-            upcomingSubscriptionId: "46f1e197-0755-474f-93d8-1096f5eeb138",
-            id: "219f47d2-905d-42ae-b920-b5dd53959752"
-        }, {
-            name: "Chaitanya",
-            email: "chaitu@gmail.com",
-            role: "member",
-            age: 23,
-            phoneNo: "0932840832",
-            branch: "Hyderabad",
-            status: "newUser",
-            password: "randomPassword",
-            id: "36fc7386-694d-4625-8868-abbe28b7ec1e"
-        }, {
-            name: "Arjun",
-            email: "arjun@gmail.com",
-            role: "member",
-            age: 23,
-            phoneNo: "0932840832",
-            branch: "Mumbai",
-            status: "active",
-            password: "randomPassword",
-            activeSubscriptionId: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
-            id: "8d52915f-75ff-469d-a483-29eedc09fdaf"
-        }
-    ])
+    const [customers, setCustomers] = useState([])
 
     const fetchCustomers = async () => {
         console.log('hi this is an api call')
@@ -102,7 +57,17 @@ const MembershipBody = () => {
 
     const fetchMemberships = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/customerSubscriptions", {
+            const baseUrl = 'http://localhost:5000/api/customerSubscriptions';
+            const queryParams = {
+                nextBookmark: memBookmark
+            };
+
+            const url = new URL(baseUrl);
+            if (memBookmark !== null) {
+                Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]));
+            }
+
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,7 +76,8 @@ const MembershipBody = () => {
             })
             const data = await response.json()
             console.log(data)
-            setMemberships(data.customerSubscriptions.Items)
+            setMemBookmark(data?.customerSubscriptions?.LastEvaluatedKey?.id)
+            setMemberships([...memberships, ...data.customerSubscriptions.Items])
         } catch (error) {
             console.log(error)
         }
@@ -154,48 +120,7 @@ const MembershipBody = () => {
         fetchCustomers()
     }, [])
 
-    const [memberships, setMemberships] = useState([{
-        name: "Rajesh Wagle",
-        customerId: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
-        subscrptionId: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
-        id: "219f47d2-905d-42ae-b920-b5dd53959752",
-        type: "Basic",
-        startDate: "15/01/2023",
-        endDate: "15/06/2025",
-        price: "5000",
-        status: "active"
-    }, {
-        name: "Harsha Javvaji",
-        customerId: "219f47d2-905d-42ae-b920-b5dd53959752",
-        subscrptionId: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
-        id: "5c007bf5-cb8f-4dca-8d5f-89642eb99e93",
-        type: "Basic",
-        startDate: "15/01/2023",
-        endDate: "15/01/2026",
-        price: "5000",
-        status: "active"
-    }, {
-        name: "Chaitanya",
-        customerId: "36fc7386-694d-4625-8868-abbe28b7ec1e",
-        subscrptionId: "c89b7df9-949c-410c-85bf-f0a55b2077cf",
-        type: "Basic",
-        id: "24dc73a2-486b-4d17-885f-a83544bfc0b5",
-        startDate: "15/01/2023",
-        endDate: "15/04/2025",
-        price: "5000",
-        status: "active"
-    }, {
-        name: "Arjun", // name, type & price should be displayed (should discuss)
-        customerId: "8d52915f-75ff-469d-a483-29eedc09fdaf",
-        subscrptionId: "0c52070d-efea-4ff4-ad0b-c508e234fc02",
-        type: "Super",
-        id: "8386b066-8b8c-46a3-8754-fc10ab229581",
-        startDate: "15/01/2023",
-        endDate: "15/01/2024",
-        price: "7000",
-        status: "expired"
-    }
-    ])
+    const [memberships, setMemberships] = useState([])
 
 
 
@@ -255,6 +180,10 @@ const MembershipBody = () => {
             <button className="btn btn-outline-secondary" type="submit">Search</button>
         </form>
         <MembershipsTable deleteMembership={deleteMembership} memberships={memberships} />
+        {memBookmark !== undefined && <div className="d-flex justify-content-end load-more">
+            <button onClick={fetchMemberships} className="btn btn-primary">Load More</button>
+        </div>}
+        {memBookmark === undefined && <p className="text-secondary"> Have reached the end of results </p>}
         {isDisplay && <MembershipModal createMembership={createMembership} memberships={memberships} membership={membership} setMembership={setMembership} customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
     </div>)
 }
