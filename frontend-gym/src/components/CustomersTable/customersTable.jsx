@@ -30,26 +30,25 @@ const CustomersTable = ({ customers }) => {
   const [isDisplayDelete, setIsDisplayDelete] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const openEditModal = (customer) => {
-    if(!isDisplayDelete){
-      setSelectedCustomer(customer)
-      setIsDisplayEdit(true)
+    if (!isDisplayDelete) {
+      setSelectedCustomer(customer);
+      setIsDisplayEdit(true);
     }
-  }
+  };
   const closeEditModal = () => {
-    setIsDisplayEdit(false)
-    setSelectedCustomer(null)
-  }
+    setIsDisplayEdit(false);
+    setSelectedCustomer(null);
+  };
   const openDeleteModal = (customer) => {
-    if(!isDisplayEdit){
-      setSelectedCustomer(customer)
-      setIsDisplayDelete(true)
+    if (!isDisplayEdit) {
+      setSelectedCustomer(customer);
+      setIsDisplayDelete(true);
     }
-    
-  }
+  };
   const closeDeleteModal = () => {
-    setIsDisplayDelete(false)
-    setSelectedCustomer(null)
-  }
+    setIsDisplayDelete(false);
+    setSelectedCustomer(null);
+  };
   return (
     <div
       className="container-fluid"
@@ -80,7 +79,10 @@ const CustomersTable = ({ customers }) => {
         </thead>
         <tbody>
           {customers.map((customer) => (
-            <tr key = {customer.id} style={{ fontFamily: "sans-serif", fontSize: "14px" }}>
+            <tr
+              key={customer.id}
+              style={{ fontFamily: "sans-serif", fontSize: "14px" }}
+            >
               <td
                 style={{
                   fontWeight: "bold",
@@ -114,10 +116,16 @@ const CustomersTable = ({ customers }) => {
               <td style={{ padding: "16px" }}>
                 <div className="d-flex gap-2">
                   <Link>
-                    <CiEdit onClick={() => openEditModal(customer)} style={{color:"black"}}/>
+                    <CiEdit
+                      onClick={() => openEditModal(customer)}
+                      style={{ color: "black" }}
+                    />
                   </Link>
                   <Link>
-                  <MdDeleteOutline onClick={() => openDeleteModal(customer)} style={{color:"red"}}/>
+                    <MdDeleteOutline
+                      onClick={() => openDeleteModal(customer)}
+                      style={{ color: "red" }}
+                    />
                   </Link>
                 </div>
               </td>
@@ -125,8 +133,18 @@ const CustomersTable = ({ customers }) => {
           ))}
         </tbody>
       </table>
-      {isDisplayEdit && <EditCustomerModal customer= {selectedCustomer} closeEditModal = {closeEditModal}/>}
-      {isDisplayDelete && <DeleteCustomerModal customer= {selectedCustomer} closeDeleteModal = {closeDeleteModal} />}
+      {isDisplayEdit && (
+        <EditCustomerModal
+          customer={selectedCustomer}
+          closeEditModal={closeEditModal}
+        />
+      )}
+      {isDisplayDelete && (
+        <DeleteCustomerModal
+          customer={selectedCustomer}
+          closeDeleteModal={closeDeleteModal}
+        />
+      )}
     </div>
   );
 };
