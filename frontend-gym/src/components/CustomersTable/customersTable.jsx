@@ -31,25 +31,24 @@ const CustomersTable = ({ customers }) => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const openEditModal = (customer) => {
     if (!isDisplayDelete) {
-      setSelectedCustomer(customer)
-      setIsDisplayEdit(true)
+      setSelectedCustomer(customer);
+      setIsDisplayEdit(true);
     }
-  }
+  };
   const closeEditModal = () => {
-    setIsDisplayEdit(false)
-    setSelectedCustomer(null)
-  }
+    setIsDisplayEdit(false);
+    setSelectedCustomer(null);
+  };
   const openDeleteModal = (customer) => {
     if (!isDisplayEdit) {
-      setSelectedCustomer(customer)
-      setIsDisplayDelete(true)
+      setSelectedCustomer(customer);
+      setIsDisplayDelete(true);
     }
-
-  }
+  };
   const closeDeleteModal = () => {
-    setIsDisplayDelete(false)
-    setSelectedCustomer(null)
-  }
+    setIsDisplayDelete(false);
+    setSelectedCustomer(null);
+  };
   return (
     <div
       className="container-fluid"
@@ -80,7 +79,10 @@ const CustomersTable = ({ customers }) => {
         </thead>
         <tbody>
           {customers.map((customer) => (
-            <tr key={customer.id} style={{ fontFamily: "sans-serif", fontSize: "14px" }}>
+            <tr
+              key={customer.id}
+              style={{ fontFamily: "sans-serif", fontSize: "14px" }}
+            >
               <td
                 style={{
                   fontWeight: "bold",
