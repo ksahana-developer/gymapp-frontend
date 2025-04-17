@@ -9,6 +9,7 @@ import Memberships from './pages/Memberships/Memberships';
 import Profile from './pages/Profile/Profile';
 import Login from './pages/Login/Login';
 import { useEffect, useState } from 'react';
+import Customer from './pages/Customer/Customer';
 import SignUp from './components/SignUp/SignUp';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/memberships" element={<Memberships />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/customer/:id" element={<Customer />} />
         <Route path="/signup" element= {<SignUp />} />
       </Routes>
     </div>

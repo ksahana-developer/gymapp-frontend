@@ -115,17 +115,14 @@ const CustomersTable = ({ customers }) => {
               </td>
               <td style={{ padding: "16px" }}>
                 <div className="d-flex gap-2">
-                  <Link>
-                    <CiEdit
-                      onClick={() => openEditModal(customer)}
-                      style={{ color: "black" }}
-                    />
+                  <Link to={`/customer/${customer.id}`}>
+                    <button className="btn btn-primary btn-sm">View</button>
                   </Link>
                   <Link>
-                    <MdDeleteOutline
-                      onClick={() => openDeleteModal(customer)}
-                      style={{ color: "red" }}
-                    />
+                    <CiEdit onClick={() => openEditModal(customer)} style={{ color: "black" }} />
+                  </Link>
+                  <Link>
+                    <MdDeleteOutline onClick={() => openDeleteModal(customer)} style={{ color: "red" }} />
                   </Link>
                 </div>
               </td>
@@ -133,18 +130,8 @@ const CustomersTable = ({ customers }) => {
           ))}
         </tbody>
       </table>
-      {isDisplayEdit && (
-        <EditCustomerModal
-          customer={selectedCustomer}
-          closeEditModal={closeEditModal}
-        />
-      )}
-      {isDisplayDelete && (
-        <DeleteCustomerModal
-          customer={selectedCustomer}
-          closeDeleteModal={closeDeleteModal}
-        />
-      )}
+      {isDisplayEdit && <EditCustomerModal customer={selectedCustomer} closeEditModal={closeEditModal} />}
+      {isDisplayDelete && <DeleteCustomerModal customer={selectedCustomer} closeDeleteModal={closeDeleteModal} />}
     </div>
   );
 };
