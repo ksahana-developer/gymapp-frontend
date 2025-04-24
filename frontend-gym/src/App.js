@@ -11,6 +11,7 @@ import Login from './pages/Login/Login';
 import { useEffect, useState } from 'react';
 import Customer from './pages/Customer/Customer';
 import SignUp from './components/SignUp/SignUp';
+import CustomerActivity from './pages/CustomerActivity/CustomerActivity';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -29,6 +30,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/customer/:id" element={<Customer />} />
         <Route path="/signup" element= {<SignUp />} />
+        <Route path="/activity/customer/:id" element= {<CustomerActivity />} />
       </Routes>
     </div>
   </Router >
