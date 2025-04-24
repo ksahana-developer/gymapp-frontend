@@ -76,7 +76,7 @@ const Customer = () => {
                         width: "60px",
                         height: "60px",
                         borderRadius: "50%"
-                    }} src="https://www.wikibiodata.com/wp-content/uploads/2020/12/Sumeet-Raghvan.jpg" alt="" />
+                    }} src={localStorage.getItem('customer') ? JSON.parse(localStorage.getItem('customer')).profilePicture : '"https://www.wikibiodata.com/wp-content/uploads/2020/12/Sumeet-Raghvan.jpg"'} alt="" />
                     <div className="d-flex flex-column">
                         <h4>{!isLoadCust ? customer?.name : <p className="placeholder-glow">
                             <span className="placeholder col-12"></span>
@@ -90,6 +90,7 @@ const Customer = () => {
                 <div className="d-flex gap-3 align-items-center">
                     <button className="btn btn-light"><FiEdit /> Edit</button>
                     <button className="btn btn-danger"><AiOutlineDelete /> Delete</button>
+                    <Link to={`/activity/customer/${JSON.parse(localStorage.getItem('customer'))?.id}`} className="btn btn-light">View my activity</Link>
                 </div>
             </div>
             <div className="d-flex justify-content-around align-items-center mt-2 ms-5 me-5 gap-3">

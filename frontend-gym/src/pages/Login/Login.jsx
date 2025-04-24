@@ -24,6 +24,7 @@ const Login = ({setIsLoggedIn}) => {
             const data = await response.json()
             console.log(data)
             localStorage.setItem("token", data.token)
+            localStorage.setItem("customer", JSON.stringify(data?.userRecord?.Item))
             if (response.status == 200) {
                 navigate("/memberships")
                 setIsLoggedIn(true)

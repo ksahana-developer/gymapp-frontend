@@ -51,7 +51,7 @@ const Navbar = ({ setIsLoggedIn }) => {
           <button onClick={logout} className="btn btn-danger">
             Logout
           </button>
-          <Link className="nav-link active" aria-current="page" to="/profile">
+          <Link className="nav-link active" aria-current="page" to={`/customer/${JSON.parse(localStorage.getItem('customer')).id}`}>
             <img
               src={customer?.profilePicture}
               alt="profile Picture"
