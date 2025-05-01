@@ -1,0 +1,41 @@
+import React, { useState } from 'react'
+import { FaRunning, FaFire, FaClock } from "react-icons/fa";
+const CustomerWorkout = ({ act }) => {
+    const [showAllActivities, setShowAllActivities] = useState(false)
+    const toggleShowAllActivities = () => {
+        setShowAllActivities(!showAllActivities)
+    }
+    return (
+        <div className="d-flex flex-column border border-white rounded mb-2">
+            <div className="d-flex gap-2 align-items-center justify-content-between px-2 my-2">
+                <p className='m-0'><FaClock /> StartedAt: {`${new Date(act?.inTime).getUTCHours()} : ${new Date(act?.inTime).getUTCMinutes()}`} </p>
+                <p className='m-0'><FaClock /> EndedAt: {`${new Date(act?.outTime).getUTCHours()} : ${new Date(act?.outTime).getUTCMinutes()}`} </p>
+                <div className="d-flex align-items-center justify-content-around gap-2">
+
+                    <button onClick={toggleShowAllActivities} className="btn btn-secondary btn-sm">{showAllActivities ? "Hide" : "View"}</button>
+                    <button className="btn btn-primary btn-sm">Edit</button>
+                    <button className="btn btn-danger btn-sm">Delete</button>
+                </div>
+            </div>
+
+            {showAllActivities && <div className="d-flex flex-column mb-2">
+                {act?.activities.map((activity, index) => {
+                    return (
+                        <div className="d-flex bg-white align-items-center border-white border rounded my-1 ms-2 me-3 gap-4 p-2">
+                            <p className="m-0">
+                                <FaRunning size={25} />{activity?.type}
+                            </p>
+                            <p className="m-0">
+                                <FaFire className='text-danger' /> {activity?.calories} Cal
+                            </p>
+                        </div>
+
+                    )
+                })
+                }
+            </div>}
+        </div>
+    )
+}
+
+export default CustomerWorkout

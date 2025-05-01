@@ -7,7 +7,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdOutlineEmail } from "react-icons/md";
 import { FiPhone } from "react-icons/fi";
 import './customer.css'
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Customer = () => {
     const { id } = useParams()
