@@ -3,33 +3,38 @@ import { FaFire } from "react-icons/fa6";
 import { MdOutlineSportsGymnastics } from "react-icons/md";
 import { MdWaterDrop } from "react-icons/md";
 import CustomerWorkout from '../CustomerWorkout/CustomerWorkout';
+import AddActivityModal from '../AddActivityModal/AddActivityModal';
 
-const CustomerActivityLog = ({ activities, date, getMonth }) => {
+const CustomerActivityLog = ({ activities, date, getMonth, setIsReload }) => {
     const [isDisplayActivity, setIsDisplayActivity] = useState(false)
     const toggleDisplayActivity = () => {
         setIsDisplayActivity(!isDisplayActivity)
     }
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setIsDisplayActivity(false)
-    },[date])
+    }, [date])
+    const [openAddActivityModal, setOpenAddActivityModal] = useState(false)
+    const addActivityModal = () => {
+        setOpenAddActivityModal(!openAddActivityModal)
+    }
 
     return (
         <div style={{ width: '50%' }} className='border p-2 rounded-3 d-flex flex-column gap-2' >
             <div className="d-flex align-items-center justify-content-between">
-                
-            <h5 className='text-secondary'>{activities?.length ===0 ? `No Activities recorded on ${(new Date(date)).getDate()} ${getMonth((new Date(date)).getMonth())} ${(new Date(date)).getFullYear()}`: ` Your workout on ${(new Date(date)).getDate()} ${getMonth((new Date(date)).getMonth())} ${(new Date(date)).getFullYear()}`}</h5>
-            <button className="btn btn-primary btn-sm">Add an activity</button>
+
+                <h5 className='text-secondary'>{activities?.length === 0 ? `No Activities recorded on ${(new Date(date)).getDate()} ${getMonth((new Date(date)).getMonth())} ${(new Date(date)).getFullYear()}` : ` Your workout on ${(new Date(date)).getDate()} ${getMonth((new Date(date)).getMonth())} ${(new Date(date)).getFullYear()}`}</h5>
+                <button onClick={addActivityModal} className="btn btn-primary btn-sm">Add an activity</button>
             </div>
-            
-            { activities?.length>0 && <div className="d-flex align-items-center gap-2">
+
+            {activities?.length > 0 && <div className="d-flex align-items-center gap-2">
                 <p className='mb-0' ><FaFire className='text-danger mx-2' />Calories Burnt: 800   <span className='text-secondary' >Cal</span></p>
                 <button onClick={toggleDisplayActivity} className="btn btn-danger btn-sm">{isDisplayActivity ? "Hide" : "Show"}</button>
             </div>}
             {isDisplayActivity && <div className="d-flex flex-column border border-light p-2 m-2 rounded bg-light">
                 {activities?.map((act, ind) => {
                     return (
-                        <CustomerWorkout act={act} key={act?.id} />
+                        <CustomerWorkout setIsReload={setIsReload} act={act} key={act?.id} />
                     )
                 })}
             </div>
@@ -54,6 +59,9 @@ const CustomerActivityLog = ({ activities, date, getMonth }) => {
                     </div>
                 </div>
             </div> */}
+            {
+                openAddActivityModal && <AddActivityModal setOpenModal={setOpenAddActivityModal} />
+            }
         </div>
     )
 }

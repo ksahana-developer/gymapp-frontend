@@ -41,8 +41,9 @@ const CustomerActivity = () => {
   const [date, setDate] = useState(new Date())
   console.log(date, typeof (date))
   console.log(`${(new Date(date)).getDate()} ${getMonth((new Date(date)).getMonth())} ${(new Date(date)).getFullYear()}`)
+  const [isReload, setIsReload] = useState(false)
 
-  const getCustomerAcitivityByDate = async()=>{
+  const getCustomerAcitivityByDate = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/log/activities?startDate=${date}&endDate=${date}`, {
         method: "GET",
@@ -58,12 +59,18 @@ const CustomerActivity = () => {
       console.log(error)
     }
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     getCustomerAcitivityByDate()
-  },[date])
-  
-  
+  }, [date])
+
+  useEffect(() => {
+    if (isReload) {
+      getCustomerAcitivityByDate()
+    }
+    setIsReload(false)
+  }, [isReload])
+
   return (
     <div className='d-flex flex-column border border-white rounded-2 p-2 mt-3 mx-2' >
       <h5 className='mb-2' >{`${(new Date(date)).getDate()} ${getMonth((new Date(date)).getMonth())} ${(new Date(date)).getFullYear()}`} </h5>
@@ -72,7 +79,7 @@ const CustomerActivity = () => {
       </div>
       <div className="d-flex flex-column p-2">
         <h5>Your recent Activities</h5>
-        <CustomerActivityLog activities={activityByDate} date={date} getMonth={getMonth} />
+        <CustomerActivityLog setIsReload={setIsReload} activities={activityByDate} date={date} getMonth={getMonth} />
       </div>
     </div>
   )

@@ -1,10 +1,24 @@
 import React, { useState } from 'react'
 import { FaRunning, FaFire, FaClock } from "react-icons/fa";
-const CustomerWorkout = ({ act }) => {
+const CustomerWorkout = ({ act, setIsReload }) => {
     const [showAllActivities, setShowAllActivities] = useState(false)
     const toggleShowAllActivities = () => {
         setShowAllActivities(!showAllActivities)
     }
+
+    const deleteActivity = async (id) => {
+        const response = await fetch(`http://localhost:5000/api/log/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                token: localStorage.getItem('token')
+            }
+        });
+        const data = await response.json()
+        setIsReload(true)
+        console.log(data)
+    }
+
     return (
         <div className="d-flex flex-column border border-white rounded mb-2">
             <div className="d-flex gap-2 align-items-center justify-content-between px-2 my-2">
@@ -14,7 +28,7 @@ const CustomerWorkout = ({ act }) => {
 
                     <button onClick={toggleShowAllActivities} className="btn btn-secondary btn-sm">{showAllActivities ? "Hide" : "View"}</button>
                     <button className="btn btn-primary btn-sm">Edit</button>
-                    <button className="btn btn-danger btn-sm">Delete</button>
+                    <button onClick={()=>{deleteActivity(act?.id)}} className="btn btn-danger btn-sm">Delete</button>
                 </div>
             </div>
 
