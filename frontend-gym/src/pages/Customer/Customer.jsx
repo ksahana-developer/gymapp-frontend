@@ -19,7 +19,7 @@ const Customer = () => {
     const [isLoadCust, setIsLoadCust] = useState(false)
     const [isLoadMem, setIsLoadMem] = useState(false)
     const [isDisplayEdit, setIsDisplayEdit] = useState(false)
-
+    const [fetchCustomer, setFetchCustomer] = useState(false)
     const openEditModal = () => {
         if(!isDisplayEdit)
         setIsDisplayEdit(true)
@@ -79,6 +79,13 @@ const Customer = () => {
         getCustomer()
     }, [])
 
+    useEffect(() => {
+        if(fetchCustomer){
+            getCustomer()
+        }
+        setFetchCustomer(false)
+    }, [fetchCustomer])
+
     const token = localStorage.getItem('token')
     const decoded = token? jwtDecode(token) : null
     return (
@@ -136,7 +143,7 @@ const Customer = () => {
             <h4>Purshase History</h4>
                     <p className="fs-6 text-secondary">Customer's personal contact details</p>
             </div>
-            {isDisplayEdit && <EditProfileModal customer = {customer} closeEditModal = {closeEditModal} />}
+            {isDisplayEdit && <EditProfileModal customer = {customer} closeEditModal = {closeEditModal} setFetchCustomer = {setFetchCustomer} />}
         </div>)
 }
 

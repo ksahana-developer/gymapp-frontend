@@ -6,7 +6,7 @@ import { useState } from "react";
 import EditCustomerModal from "../EditCustomerModal/EditCustomerModal";
 import DeleteCustomerModal from "../DeleteCustomerModal/DeleteCustomerModal";
 
-const CustomersTable = ({ customers }) => {
+const CustomersTable = ({ customers, setFetchCustomers, fetchCustomers }) => {
   const getStyleByStatus = (status) => {
     switch (status) {
       case "Active":
@@ -130,7 +130,7 @@ const CustomersTable = ({ customers }) => {
           ))}
         </tbody>
       </table>
-      {isDisplayEdit && <EditCustomerModal customer={selectedCustomer} closeEditModal={closeEditModal} />}
+      {isDisplayEdit && <EditCustomerModal customer={selectedCustomer} closeEditModal={closeEditModal} setFetchCustomers = {setFetchCustomers} fetchCustomers = {fetchCustomers} />}
       {isDisplayDelete && <DeleteCustomerModal customer={selectedCustomer} closeDeleteModal={closeDeleteModal} />}
     </div>
   );

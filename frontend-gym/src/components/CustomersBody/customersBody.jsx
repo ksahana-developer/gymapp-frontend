@@ -11,7 +11,7 @@ const CustomersBody = () => {
   const [message, setMessage] = useState("");
   const [customers, setCustomers] = useState([]);
   const [custBookmark, setCustBookmark] = useState(null)
-
+  const [fetchCustomers, setFetchCustomers] = useState(false)
   const checkAdmin = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/customers/isAdmin`, {
@@ -32,6 +32,7 @@ const CustomersBody = () => {
     }
   }
 
+  
 
   const getCustomers = async (e) => {
     const token = localStorage.getItem("token");
@@ -66,6 +67,12 @@ const CustomersBody = () => {
     checkAdmin()
     getCustomers();
   }, []);
+  useEffect(() => {
+    if(fetchCustomers){
+      getCustomers()
+    }
+    setFetchCustomers(false)
+  }, [fetchCustomers])
   const [isDisplay, setIsDisplay] = useState(false);
   const openModal = () => {
     setIsDisplay(true);
@@ -101,7 +108,7 @@ const CustomersBody = () => {
           Search
         </button>
       </form>
-      <CustomersTable customers={customers} />
+      <CustomersTable customers={customers} setFetchCustomers = {setFetchCustomers} fetchCustomers = {fetchCustomers} />
      {custBookmark!== undefined && <div className="d-flex justify-content-end load-more">
         <button onClick={getCustomers} className="btn btn-primary">Load More</button>
       </div>}
