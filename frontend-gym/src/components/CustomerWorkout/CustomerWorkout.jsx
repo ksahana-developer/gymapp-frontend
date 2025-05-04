@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { FaRunning, FaFire, FaClock } from "react-icons/fa";
+import EditActivityModal from './EditActivityModal';
+
 const CustomerWorkout = ({ act, setIsReload }) => {
     const [showAllActivities, setShowAllActivities] = useState(false)
+    const [showEditModal, setShowEditModal] = useState(false)
+    
     const toggleShowAllActivities = () => {
         setShowAllActivities(!showAllActivities)
     }
@@ -25,17 +29,16 @@ const CustomerWorkout = ({ act, setIsReload }) => {
                 <p className='m-0'><FaClock /> StartedAt: {`${new Date(act?.inTime).getUTCHours()} : ${new Date(act?.inTime).getUTCMinutes()}`} </p>
                 <p className='m-0'><FaClock /> EndedAt: {`${new Date(act?.outTime).getUTCHours()} : ${new Date(act?.outTime).getUTCMinutes()}`} </p>
                 <div className="d-flex align-items-center justify-content-around gap-2">
-
                     <button onClick={toggleShowAllActivities} className="btn btn-secondary btn-sm">{showAllActivities ? "Hide" : "View"}</button>
-                    <button className="btn btn-primary btn-sm">Edit</button>
-                    <button onClick={()=>{deleteActivity(act?.id)}} className="btn btn-danger btn-sm">Delete</button>
+                    <button onClick={() => setShowEditModal(true)} className="btn btn-primary btn-sm">Edit</button>
+                    <button onClick={() => {deleteActivity(act?.id)}} className="btn btn-danger btn-sm">Delete</button>
                 </div>
             </div>
 
             {showAllActivities && <div className="d-flex flex-column mb-2">
                 {act?.activities.map((activity, index) => {
                     return (
-                        <div className="d-flex bg-white align-items-center border-white border rounded my-1 ms-2 me-3 gap-4 p-2">
+                        <div key={index} className="d-flex bg-white align-items-center border-white border rounded my-1 ms-2 me-3 gap-4 p-2">
                             <p className="m-0">
                                 <FaRunning size={25} />{activity?.type}
                             </p>
@@ -43,11 +46,17 @@ const CustomerWorkout = ({ act, setIsReload }) => {
                                 <FaFire className='text-danger' /> {activity?.calories} Cal
                             </p>
                         </div>
-
                     )
-                })
-                }
+                })}
             </div>}
+
+            {showEditModal && (
+                <EditActivityModal 
+                    setOpenModal={setShowEditModal}
+                    activityData={act}
+                    setIsReload={setIsReload}
+                />
+            )}
         </div>
     )
 }
