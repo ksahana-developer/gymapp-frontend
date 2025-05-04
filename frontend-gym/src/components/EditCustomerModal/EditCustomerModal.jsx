@@ -3,8 +3,9 @@ import { RxCross2 } from "react-icons/rx";
 import "./EditCustomerModal.css";
 import { useEffect, useState } from "react";
 
-const EditCustomerModal = ({ customer, closeEditModal }) => {
+const EditCustomerModal = ({ customer, closeEditModal, setFetchCustomers, fetchCustomers }) => {
   const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -31,7 +32,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
         role: customer.role || "",
       });
     }
-  }, [customer]);
+  }, [customer, fetchCustomers]);
 
   const handleChange = (e) => {
     setFormData({
@@ -45,6 +46,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
     console.log(updatedFormData, "data")
     // e.preventDefault();
     try {
+      setLoading(true)
       const response = await fetch(
         `http://localhost:5000/api/customers/${customerId}`,
         {
@@ -57,17 +59,20 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
         }
       )
       const data = await response.json()
-      if (response.status == 200) {
+      if (response.status === 200) {
         setMessage("User updated successfully");
         setTimeout(() => {
           setMessage("");
           closeEditModal();
         }, 3000);
+        setFetchCustomers(true)
       } else {
         setMessage("User update failed");
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   };
   return (
@@ -96,6 +101,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
             id="name"
             value={formData.name}
             onChange={handleChange}
+            disabled
           />
         </div>
         <div className="mb-2">
@@ -110,6 +116,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
             aria-describedby="emailHelp"
             onChange={handleChange}
             value={formData.email}
+            disabled
           />
         </div>
         <div className="mb-2">
@@ -124,6 +131,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
             id="mobile-number"
             onChange={handleChange}
             value={formData.phoneNo}
+            disabled
           />
         </div>
         <div className="d-flex gap-3">
@@ -139,6 +147,7 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
               name="dateOfBirth"
               onChange={handleChange}
               value={formData.dateOfBirth}
+              disabled
             />
           </div>
           <div class="mb-2">
@@ -174,8 +183,8 @@ const EditCustomerModal = ({ customer, closeEditModal }) => {
           </select>
         </div>
         <div className="d-flex justify-content-end">
-          <button className="btn btn-primary" onClick={() => updateUser(customerId, formData)}>
-            Edit Customer
+          <button className="btn btn-primary mb-2" onClick={() => updateUser(customerId, formData)}>
+            {loading? "Updating" : "Update Customer"}
           </button>
         </div>
       {/* </form> */}

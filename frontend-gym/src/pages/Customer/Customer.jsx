@@ -7,7 +7,9 @@ import { FiEdit } from "react-icons/fi";
 import { MdOutlineEmail } from "react-icons/md";
 import { FiPhone } from "react-icons/fi";
 import './customer.css'
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
+import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
+import { jwtDecode } from "jwt-decode";
 
 const Customer = () => {
     const { id } = useParams()
@@ -16,6 +18,17 @@ const Customer = () => {
     const [date, setDate] = useState(new Date())
     const [isLoadCust, setIsLoadCust] = useState(false)
     const [isLoadMem, setIsLoadMem] = useState(false)
+    const [isDisplayEdit, setIsDisplayEdit] = useState(false)
+    const [fetchCustomer, setFetchCustomer] = useState(false)
+    const openEditModal = () => {
+        if(!isDisplayEdit)
+        setIsDisplayEdit(true)
+    }
+
+    const closeEditModal = () => {
+        setIsDisplayEdit(false)
+    }
+
     const getCustomer = async () => {
         try {
             setIsLoadCust(true)
@@ -66,6 +79,15 @@ const Customer = () => {
         getCustomer()
     }, [])
 
+    useEffect(() => {
+        if(fetchCustomer){
+            getCustomer()
+        }
+        setFetchCustomer(false)
+    }, [fetchCustomer])
+
+    const token = localStorage.getItem('token')
+    const decoded = token? jwtDecode(token) : null
     return (
         <div className="d-flex flex-column container-fluid mt-3" >
             <h2 className="mb-4" >Customer Details</h2>
@@ -88,7 +110,7 @@ const Customer = () => {
                     </div>
                 </div>
                 <div className="d-flex gap-3 align-items-center">
-                    <button className="btn btn-light"><FiEdit /> Edit</button>
+                    {(id === decoded.id) && <button className="btn btn-light" onClick={() => openEditModal(customer)}><FiEdit /> Edit</button>}
                     <button className="btn btn-danger"><AiOutlineDelete /> Delete</button>
                     <Link to={`/activity/customer/${JSON.parse(localStorage.getItem('customer'))?.id}`} className="btn btn-light">View my activity</Link>
                 </div>
@@ -121,6 +143,7 @@ const Customer = () => {
             <h4>Purshase History</h4>
                     <p className="fs-6 text-secondary">Customer's personal contact details</p>
             </div>
+            {isDisplayEdit && <EditProfileModal customer = {customer} closeEditModal = {closeEditModal} setFetchCustomer = {setFetchCustomer} />}
         </div>)
 }
 
