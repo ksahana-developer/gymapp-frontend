@@ -23,11 +23,18 @@ const CustomerWorkout = ({ act, setIsReload }) => {
         console.log(data)
     }
 
+    const formatTime = (timestamp) => {
+        const date = new Date(timestamp)
+        const hours = String(date.getUTCHours()).padStart(2, '0')
+        const minutes = String(date.getUTCMinutes()).padStart(2, '0')
+        return `${hours}:${minutes}`
+    }
+
     return (
         <div className="d-flex flex-column border border-white rounded mb-2">
             <div className="d-flex gap-2 align-items-center justify-content-between px-2 my-2">
-                <p className='m-0'><FaClock /> StartedAt: {`${new Date(act?.inTime).getUTCHours()} : ${new Date(act?.inTime).getUTCMinutes()}`} </p>
-                <p className='m-0'><FaClock /> EndedAt: {`${new Date(act?.outTime).getUTCHours()} : ${new Date(act?.outTime).getUTCMinutes()}`} </p>
+                <p className='m-0'><FaClock /> StartedAt: {formatTime(act?.inTime)} </p>
+                <p className='m-0'><FaClock /> EndedAt: {formatTime(act?.outTime)} </p>
                 <div className="d-flex align-items-center justify-content-around gap-2">
                     <button onClick={toggleShowAllActivities} className="btn btn-secondary btn-sm">{showAllActivities ? "Hide" : "View"}</button>
                     <button onClick={() => setShowEditModal(true)} className="btn btn-primary btn-sm">Edit</button>

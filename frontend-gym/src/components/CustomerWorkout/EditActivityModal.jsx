@@ -5,34 +5,42 @@ import './EditActivityModal.css';
 
 const EditActivityModal = ({ setOpenModal, activityData, setIsReload }) => {
     const [activity, setActivity] = useState({ activities: [] })
+    const [error, setError] = useState("")
     
     useEffect(() => {
         if (activityData) {
+            // Extract date and convert times to UTC
+            const inDate = new Date(activityData.inTime)
+            const date = new Date(inDate).setUTCHours(0, 0, 0, 0)
+            
             setActivity({
                 ...activityData,
-                inTime: formatTime(new Date(activityData.inTime)),
-                outTime: formatTime(new Date(activityData.outTime)),
-                date: formatDate(new Date(activityData.inTime))
+                date,
+                inTime: formatTimeForInput(new Date(activityData.inTime)),
+                outTime: formatTimeForInput(new Date(activityData.outTime))
             });
         }
     }, [activityData]);
 
-    const formatTime = (date) => {
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${hours}:${minutes}`;
+    const formatTimeForInput = (date) => {
+        return `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}`;
     };
 
-    const formatDate = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+    const formatDateForInput = (epoch) => {
+        if (!epoch) return "";
+        const date = new Date(epoch);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target
-        setActivity({ ...activity, [name]: value })
+        const { name, value } = e.target;
+        if (name === "date") {
+            // Convert date to epoch timestamp at midnight
+            const epochDate = new Date(value).setUTCHours(0, 0, 0, 0);
+            setActivity({ ...activity, [name]: epochDate });
+        } else {
+            setActivity({ ...activity, [name]: value });
+        }
     }
 
     const [workoutValues, setWorkoutValues] = useState({ type: "", calories: '' })
@@ -48,17 +56,36 @@ const EditActivityModal = ({ setOpenModal, activityData, setIsReload }) => {
     }
 
     const updateActivity = async (e) => {
-        e.preventDefault()
-        // Convert date and times to epoch
-        const inTimeStr = `${activity.date}T${activity.inTime}`;
-        const outTimeStr = `${activity.date}T${activity.outTime}`;
-        const inTimeEpoch = new Date(inTimeStr).getTime();
-        const outTimeEpoch = new Date(outTimeStr).getTime();
+        e.preventDefault();
+        
+        if (!activity.date || !activity.inTime || !activity.outTime) {
+            setError("Please fill in all date and time fields");
+            return;
+        }
+
+        if (!activity.activities || activity.activities.length === 0) {
+            setError("Please add at least one activity");
+            return;
+        }
+
+        // Split times into hours and minutes
+        const [inHours, inMinutes] = activity.inTime.split(':')
+        const [outHours, outMinutes] = activity.outTime.split(':')
+
+        // Create UTC timestamps
+        const activityDate = new Date(activity.date)
+        
+        const inTimeDate = new Date(activityDate)
+        inTimeDate.setUTCHours(parseInt(inHours), parseInt(inMinutes), 0, 0)
+        
+        const outTimeDate = new Date(activityDate)
+        outTimeDate.setUTCHours(parseInt(outHours), parseInt(outMinutes), 0, 0)
 
         const reqBody = {
             ...activity,
-            inTime: inTimeEpoch,
-            outTime: outTimeEpoch
+            date: activityDate.getTime(),
+            inTime: inTimeDate.getTime(),
+            outTime: outTimeDate.getTime()
         };
 
         try {
@@ -70,12 +97,18 @@ const EditActivityModal = ({ setOpenModal, activityData, setIsReload }) => {
                 },
                 body: JSON.stringify(reqBody)
             });
+            
+            if (!response.ok) {
+                throw new Error('Failed to update activity');
+            }
+
             const data = await response.json();
-            console.log(data);
+            console.log('Activity updated:', data);
             setIsReload(true);
             setOpenModal(false);
         } catch (error) {
-            console.log(error);
+            console.error('Error updating activity:', error);
+            setError("Failed to update activity. Please try again.");
         }
     }
 
@@ -85,10 +118,23 @@ const EditActivityModal = ({ setOpenModal, activityData, setIsReload }) => {
                 <h3 className='text-secondary'>Edit activity</h3>
                 <button onClick={() => { setOpenModal(false) }} className="btn btn-danger btn-sm"><IoCloseSharp size={20} /></button>
             </div>
+            {error && (
+                <div className="alert alert-danger" role="alert">
+                    {error}
+                </div>
+            )}
             <form>
                 <div className="mb-3">
                     <label htmlFor="date" className="form-label">Date of your Workout</label>
-                    <input onChange={handleChange} type="date" className='form-control' name="date" id="date" value={activity.date} disabled />
+                    <input 
+                        onChange={handleChange}
+                        type="date"
+                        className='form-control'
+                        name="date"
+                        id="date"
+                        value={formatDateForInput(activity.date)}
+                        disabled
+                    />
                 </div>
                 <div className="d-flex align-items-center justify-content-between gap-2" style={{ width: "100%" }} >
                     <div className="mb-3" style={{ width: "50%" }} >
