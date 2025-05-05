@@ -41,23 +41,67 @@ const Login = ({setIsLoggedIn}) => {
     }, [navigate])
 
     return (
-        <div className="centered-content">
-            {/* <div className="container"> */}
-            <form>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input onChange={handleChange} name="email" type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+        <div className="login-container min-vh-100 d-flex align-items-center justify-content-center">
+            <div className="card shadow-lg animate__animated animate__fadeIn">
+                <div className="card-body p-4">
+                    <div className="text-center mb-4 animate__animated animate__fadeInDown">
+                        <div className="gym-logo mb-3">
+                            <i className="bi bi-lightning-charge-fill"></i>
+                        </div>
+                        <h2 className="fw-bold text-primary">CHETAK GYM</h2>
+                        <p className="text-muted">Welcome back! Please login to your account.</p>
+                    </div>
+                    <form className="needs-validation animate__animated animate__fadeInUp">
+                        <div className="mb-4">
+                            <label htmlFor="exampleInputEmail1" className="form-label fw-semibold">Email address</label>
+                            <div className="input-group">
+                                <span className="input-group-text">
+                                    <i className="bi bi-envelope"></i>
+                                </span>
+                                <input 
+                                    onChange={handleChange} 
+                                    name="email" 
+                                    type="email" 
+                                    className="form-control" 
+                                    id="exampleInputEmail1" 
+                                    placeholder="Enter your email"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="exampleInputPassword1" className="form-label fw-semibold">Password</label>
+                            <div className="input-group">
+                                <span className="input-group-text">
+                                    <i className="bi bi-lock"></i>
+                                </span>
+                                <input 
+                                    onChange={handleChange} 
+                                    name="password" 
+                                    type="password" 
+                                    className="form-control" 
+                                    id="exampleInputPassword1" 
+                                    placeholder="Enter your password"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <button 
+                            onClick={login} 
+                            className="btn btn-primary w-100 mb-3 py-2 fw-semibold"
+                            type="submit"
+                        >
+                            Login
+                        </button>
+                        <div className="text-center">
+                            <small className="text-muted">
+                                Don't have an account? <a href="/signup" className="text-primary text-decoration-none">Sign Up</a>
+                            </small>
+                        </div>
+                    </form>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input onChange={handleChange} name="password" type="password" className="form-control" id="exampleInputPassword1" />
-                </div>
-                <button onClick={login} className="btn btn-primary">Submit</button>
-            </form>
-            {/* </div> */}
+            </div>
         </div>
-
     )
 }
 
