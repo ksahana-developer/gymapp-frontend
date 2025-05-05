@@ -32,8 +32,6 @@ const CustomersBody = () => {
     }
   }
 
-  
-
   const getCustomers = async (e) => {
     const token = localStorage.getItem("token");
     try {
@@ -81,38 +79,75 @@ const CustomersBody = () => {
     setIsDisplay(false);
   };
   return (
-    <div className="container-fluid">
-      <div
-        className="d-flex justify-content-between align-items-center"
-        style={{ fontFamily: "sans-serif" }}
-      >
-        <div className="flex-column">
-          <h2>Customers</h2>
-          <span>Manage your gym customers</span>
-        </div>
-        <button type="button" className="btn btn-secondary" onClick={openModal}>
-          <div className="d-flex justify-content-between gap-1">
-            <TiUserAdd size={25} />
-            <span>Add Customer</span>
+    <div className="customers-container animate__animated animate__fadeIn">
+      <div className="customers-header py-4 mb-4">
+        <div className="container-fluid">
+          <div className="row align-items-center">
+            <div className="col-lg-6">
+              <div className="header-content animate__animated animate__fadeInLeft">
+                <h2 className="display-5 fw-bold text-primary mb-2">Customers</h2>
+                <p className="text-muted lead">Manage your gym customers effectively</p>
+              </div>
+            </div>
+            <div className="col-lg-6 d-flex justify-content-lg-end mt-3 mt-lg-0">
+              <button 
+                type="button" 
+                onClick={openModal}
+                className="btn btn-primary btn-lg d-flex align-items-center gap-2 animate__animated animate__fadeInRight"
+              >
+                <TiUserAdd className="add-icon" size={25} />
+                <span>Add Customer</span>
+              </button>
+            </div>
           </div>
-        </button>
+        </div>
       </div>
-      <form className="d-flex pt-2 container-fluid" role="search">
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button className="btn btn-outline-success" type="submit">
-          Search
-        </button>
-      </form>
-      <CustomersTable customers={customers} setFetchCustomers = {setFetchCustomers} fetchCustomers = {fetchCustomers} />
-     {custBookmark!== undefined && <div className="d-flex justify-content-end load-more">
-        <button onClick={getCustomers} className="btn btn-primary">Load More</button>
-      </div>}
-      {custBookmark === undefined && <p className="text-secondary"> Have reached the end of results </p>}
+
+      <div className="container-fluid customers-content">
+        <div className="search-section mb-4 animate__animated animate__fadeInUp">
+          <div className="row justify-content-center">
+            <div className="col-lg-8">
+              <form className="search-form d-flex gap-2" role="search">
+                <input 
+                  className="form-control form-control-lg shadow-sm" 
+                  type="search" 
+                  placeholder="Search customers..." 
+                  aria-label="Search"
+                />
+                <button className="btn btn-primary px-4" type="submit">
+                  Search
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div className="table-section animate__animated animate__fadeInUp animation-delay-1">
+          <CustomersTable 
+            customers={customers} 
+            setFetchCustomers={setFetchCustomers} 
+            fetchCustomers={fetchCustomers} 
+          />
+        </div>
+
+        {custBookmark !== undefined && (
+          <div className="d-flex justify-content-center mt-4 mb-5 animate__animated animate__fadeInUp animation-delay-2">
+            <button 
+              onClick={getCustomers} 
+              className="btn btn-outline-primary btn-lg load-more-btn"
+            >
+              Load More
+            </button>
+          </div>
+        )}
+        
+        {custBookmark === undefined && (
+          <p className="text-center text-muted mt-4 end-message animate__animated animate__fadeIn">
+            You've reached the end of the results
+          </p>
+        )}
+      </div>
+
       {isDisplay && <AddCustomerModal closeModal={closeModal} />}
     </div>
   );
