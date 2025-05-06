@@ -1,3 +1,103 @@
 .flex-item{
-    flex: 1 1 35%
+    flex: 1 1 35%;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover effects */
+.hover-scale {
+    transition: transform 0.2s ease-in-out;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.hover-card {
+    transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.info-item {
+    transition: transform 0.2s ease;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.info-item:hover {
+    transform: translateY(-2px);
+    background-color: rgba(0,0,0,0.03);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .customer-profile-img {
+        margin-bottom: 10px;
+    }
+    
+    .customer-profile-card {
+        text-align: center;
+    }
+    
+    .profile-image {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Animate elements on page load */
+.animate__animated {
+    animation-duration: 0.8s;
+}
+
+/* Card styles */
+.card {
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* Badge styles */
+.badge {
+    padding: 8px 12px;
+    font-weight: 500;
+}
+
+/* Profile card styles */
+.customer-profile-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.customer-profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.profile-image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-image {
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.profile-image.hover-scale:hover {
+    transform: scale(1.1);
 }
