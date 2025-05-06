@@ -7,4 +7,235 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+}
+
+.modal-container {
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    position: relative;
+}
+
+.modal-title {
+    background: linear-gradient(45deg, #0d6efd, #0b5ed7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.btn-close-modal {
+    background: none;
+    border: none;
+    padding: 8px;
+    color: #6c757d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-close-modal:hover {
+    background-color: #f8f9fa;
+    color: #343a40;
+    transform: rotate(90deg);
+}
+
+.btn-close-modal:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.form-floating {
+    margin-bottom: 0;
+}
+
+.form-control, .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 1rem;
+    height: 3.5rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.form-control:disabled {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+.form-floating > label {
+    padding: 1rem;
+    color: #6c757d;
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+    transform: scale(0.85) translateY(-1rem) translateX(0.15rem);
+    color: #0d6efd;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #0d6efd, #0b5ed7);
+    border: none;
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+.btn-light {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.btn-light:hover:not(:disabled) {
+    background: #e9ecef;
+}
+
+.is-loading {
+    position: relative;
+    pointer-events: none;
+    min-width: 160px;
+}
+
+.loading-text {
+    opacity: 0.8;
+    margin-right: 8px;
+}
+
+.spinner-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Alert animations */
+.alert {
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+}
+
+.alert-success {
+    background: rgba(25, 135, 84, 0.1);
+    color: #198754;
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+/* Custom scrollbar */
+.modal-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.modal-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal-container {
+        width: 95%;
+        margin: 1rem;
+    }
+
+    .modal-content {
+        padding: 1rem !important;
+    }
+
+    .form-control, .form-select {
+        height: 3.2rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-container {
+        width: 100%;
+        margin: 0.5rem;
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+    }
+
+    .form-control, .form-select {
+        height: 3rem;
+        font-size: 0.85rem;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+        margin: 0 !important;
+    }
+}

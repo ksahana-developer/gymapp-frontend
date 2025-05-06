@@ -1,0 +1,226 @@
+.customers-table-wrapper {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table > :not(caption) > * > * {
+    padding: 1rem;
+}
+
+.table thead {
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.table thead th {
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.customer-row {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.customer-row:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.customer-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(45deg, #0d6efd, #0b5ed7);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.customer-row:hover .customer-avatar {
+    transform: scale(1.1);
+}
+
+.customer-name {
+    font-weight: 600;
+    color: #212529;
+    font-size: 0.95rem;
+}
+
+.customer-info {
+    color: #495057;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.customer-info i {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-badge.active {
+    background: rgba(25, 135, 84, 0.1);
+    color: #198754;
+}
+
+.status-badge.inactive {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.status-badge.expired {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.action-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.empty-state {
+    padding: 3rem 1rem;
+}
+
+.empty-state-icon {
+    color: #6c757d;
+    opacity: 0.5;
+}
+
+/* Animation delays for rows */
+.customer-row:nth-child(1) { animation-delay: 0.1s; }
+.customer-row:nth-child(2) { animation-delay: 0.2s; }
+.customer-row:nth-child(3) { animation-delay: 0.3s; }
+.customer-row:nth-child(4) { animation-delay: 0.4s; }
+.customer-row:nth-child(5) { animation-delay: 0.5s; }
+
+/* Custom scrollbar */
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .table thead th {
+        font-size: 0.75rem;
+    }
+    
+    .customer-name {
+        font-size: 0.9rem;
+    }
+
+    .customer-info {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .customer-avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 0.75rem;
+    }
+
+    .action-btn {
+        width: 28px;
+        height: 28px;
+    }
+
+    .action-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .customers-table-wrapper {
+        border-radius: 10px;
+        margin: 0 -0.5rem;
+    }
+
+    .table thead th {
+        white-space: nowrap;
+    }
+
+    .customer-avatar {
+        width: 28px;
+        height: 28px;
+    }
+
+    .customer-name {
+        font-size: 0.85rem;
+    }
+
+    .customer-info {
+        font-size: 0.8rem;
+    }
+
+    .status-badge {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .action-btn {
+        width: 26px;
+        height: 26px;
+    }
+}

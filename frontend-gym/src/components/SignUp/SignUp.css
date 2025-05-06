@@ -12,4 +12,215 @@
   body {
     -ms-overflow-style: none;
   }
-  
+
+.signup-wrapper {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+                url('https://images.unsplash.com/photo-1534367507873-d2d7e24c797f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 2rem;
+}
+
+.signup-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.logo-container {
+    width: 80px;
+    height: 80px;
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.logo-icon {
+    font-size: 2.5rem;
+    color: #0d6efd;
+    animation: pulse 2s infinite;
+}
+
+.profile-preview {
+    text-align: center;
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0d6efd;
+    padding: 3px;
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+.upload-btn-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.upload-btn {
+    width: 200px;
+    transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+
+.form-container {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.input-group {
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+.input-group:focus-within {
+    transform: translateY(-2px);
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border: none;
+    color: #0d6efd;
+    padding-left: 1rem;
+}
+
+.form-control, .form-select {
+    border: 1px solid #dee2e6;
+    background-color: transparent;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: transparent;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #0d6efd;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.btn-eye {
+    background: #f8f9fa !important;
+    border: none !important;
+    color: #0d6efd;
+    padding: 0.75rem 1rem !important;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #0d6efd, #0b5ed7);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate__animated {
+    animation-duration: 1s;
+}
+
+.animate__fadeIn {
+    animation-duration: 1.2s;
+}
+
+.animate__fadeInDown {
+    animation-duration: 0.8s;
+}
+
+.animate__fadeInUp {
+    animation-duration: 1s;
+    animation-delay: 0.3s;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .signup-wrapper {
+        padding: 1rem;
+    }
+    
+    .signup-card {
+        padding: 1.5rem;
+    }
+
+    .form-container {
+        padding: 1rem;
+    }
+
+    .profile-image {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .signup-wrapper {
+        padding: 0.5rem;
+    }
+
+    .signup-card {
+        padding: 1rem;
+    }
+
+    .logo-container {
+        width: 60px;
+        height: 60px;
+    }
+
+    .logo-icon {
+        font-size: 2rem;
+    }
+
+    .upload-btn {
+        width: 100%;
+    }
+}

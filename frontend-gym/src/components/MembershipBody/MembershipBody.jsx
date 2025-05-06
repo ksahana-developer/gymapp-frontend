@@ -2,7 +2,7 @@ import { CiCirclePlus } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import MembershipsTable from "../MembershipsTable/MembershipsTable";
 import MembershipModal from "../MembershipModal/MembershipModal";
-
+import "./membershipBody.css";
 
 const MembershipBody = () => {
     const [isDisplay, setIsDisplay] = useState(false)
@@ -95,6 +95,7 @@ const MembershipBody = () => {
             })
             const data = await response.json()
             console.log(data)
+            setIsDisplay(false)
         } catch (error) {
             console.log(error)
         }
@@ -121,8 +122,6 @@ const MembershipBody = () => {
     }, [])
 
     const [memberships, setMemberships] = useState([])
-
-
 
     const [subscriptions, setSubscriptions] = useState([
         {
@@ -167,25 +166,85 @@ const MembershipBody = () => {
         },
     ])
 
-    return (<div className="container-fluid" >
-        <div className="d-flex justify-content-between align-items-center" >
-            <div className="d-flex flex-column">
-                <h1>Memberships</h1>
-                <p>Manage your gym memberships</p>
+    return (
+        <div className="membership-container animate__animated animate__fadeIn">
+            <div className="membership-header py-4 mb-4">
+                <div className="container-fluid">
+                    <div className="row align-items-center">
+                        <div className="col-lg-6">
+                            <div className="header-content animate__animated animate__fadeInLeft">
+                                <h1 className="display-5 fw-bold text-primary mb-2">Memberships</h1>
+                                <p className="text-muted lead">Manage your gym memberships effectively</p>
+                            </div>
+                        </div>
+                        <div className="col-lg-6 d-flex justify-content-lg-end mt-3 mt-lg-0">
+                            <button 
+                                type="button" 
+                                onClick={openModal} 
+                                className="btn btn-primary btn-lg d-flex align-items-center gap-2 animate__animated animate__fadeInRight"
+                            >
+                                <CiCirclePlus className="add-icon" /> 
+                                <span>Add Membership</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button type="button" onClick={openModal} className="btn btn-secondary d-flex justify-content-between align-items-center gap-2"  ><CiCirclePlus /> <span>Add Membership</span> </button>
+
+            <div className="container-fluid membership-content">
+                <div className="search-section mb-4 animate__animated animate__fadeInUp">
+                    <div className="row justify-content-center">
+                        <div className="col-lg-8">
+                            <form className="search-form d-flex gap-2" role="search">
+                                <input 
+                                    className="form-control form-control-lg shadow-sm" 
+                                    type="search" 
+                                    placeholder="Search memberships..." 
+                                    aria-label="Search" 
+                                />
+                                <button className="btn btn-primary px-4" type="submit">
+                                    Search
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="table-section animate__animated animate__fadeInUp animation-delay-1">
+                    <MembershipsTable deleteMembership={deleteMembership} memberships={memberships} />
+                </div>
+
+                {memBookmark !== undefined && (
+                    <div className="d-flex justify-content-center mt-4 mb-5 animate__animated animate__fadeInUp animation-delay-2">
+                        <button 
+                            onClick={fetchMemberships} 
+                            className="btn btn-outline-primary btn-lg load-more-btn"
+                        >
+                            Load More
+                        </button>
+                    </div>
+                )}
+                
+                {memBookmark === undefined && (
+                    <p className="text-center text-muted mt-4 end-message animate__animated animate__fadeIn">
+                        You've reached the end of the results
+                    </p>
+                )}
+            </div>
+
+            {isDisplay && (
+                <MembershipModal 
+                    createMembership={createMembership} 
+                    memberships={memberships} 
+                    membership={membership} 
+                    setMembership={setMembership} 
+                    customers={customers} 
+                    subscriptions={subscriptions} 
+                    closeModal={closeModal} 
+                />
+            )}
         </div>
-        <form className="d-flex container" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search memberships..." aria-label="Search" />
-            <button className="btn btn-outline-secondary" type="submit">Search</button>
-        </form>
-        <MembershipsTable deleteMembership={deleteMembership} memberships={memberships} />
-        {memBookmark !== undefined && <div className="d-flex justify-content-end load-more">
-            <button onClick={fetchMemberships} className="btn btn-primary">Load More</button>
-        </div>}
-        {memBookmark === undefined && <p className="text-secondary"> Have reached the end of results </p>}
-        {isDisplay && <MembershipModal createMembership={createMembership} memberships={memberships} membership={membership} setMembership={setMembership} customers={customers} subscriptions={subscriptions} closeModal={closeModal} />}
-    </div>)
+    );
 }
 
-export default MembershipBody
+export default MembershipBody;

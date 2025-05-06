@@ -1,3 +1,149 @@
 .defBtns{
     cursor: pointer;
 }
+
+.membership-table-wrapper {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table > :not(caption) > * > * {
+    padding: 1rem;
+}
+
+.table thead {
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.table thead th {
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.membership-row {
+    transition: all 0.2s ease;
+}
+
+.membership-row:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.member-avatar {
+    width: 40px;
+    height: 40px;
+    background: #e9ecef;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+}
+
+.membership-icon {
+    color: #6c757d;
+}
+
+.price-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-active {
+    background: rgba(25, 135, 84, 0.1);
+    color: #198754;
+}
+
+.status-inactive {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.empty-state-icon {
+    color: #6c757d;
+    opacity: 0.5;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .table thead th {
+        font-size: 0.75rem;
+    }
+    
+    .price-badge, .status-badge {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .member-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 0.875rem;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .membership-table-wrapper {
+        border-radius: 10px;
+    }
+
+    .table thead th {
+        white-space: nowrap;
+    }
+
+    .member-avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Custom scrollbar for the table wrapper */
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

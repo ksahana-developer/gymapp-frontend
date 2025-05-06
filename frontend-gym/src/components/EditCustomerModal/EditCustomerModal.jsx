@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
-import { RxCross2 } from "react-icons/rx";
+import { IoMdClose } from "react-icons/io";
 import "./EditCustomerModal.css";
 import { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 
 const EditCustomerModal = ({ customer, closeEditModal, setFetchCustomers, fetchCustomers }) => {
-  const [message, setMessage] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -40,13 +40,12 @@ const EditCustomerModal = ({ customer, closeEditModal, setFetchCustomers, fetchC
       [e.target.name]: e.target.value,
     });
   };
+
   const customerId = customer.id;
+
   const updateUser = async (customerId, updatedFormData) => {
-    console.log(customerId, "12344")
-    console.log(updatedFormData, "data")
-    // e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await fetch(
         `http://localhost:5000/api/customers/${customerId}`,
         {
@@ -55,148 +54,189 @@ const EditCustomerModal = ({ customer, closeEditModal, setFetchCustomers, fetchC
             "Content-Type": "application/json",
             token: localStorage.getItem("token"),
           },
-          body: JSON.stringify(updatedFormData)
+          body: JSON.stringify(updatedFormData),
         }
-      )
-      const data = await response.json()
+      );
+      const data = await response.json();
       if (response.status === 200) {
         setMessage("User updated successfully");
         setTimeout(() => {
           setMessage("");
           closeEditModal();
         }, 3000);
-        setFetchCustomers(true)
+        setFetchCustomers(true);
       } else {
         setMessage("User update failed");
       }
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
+
   return (
-    <div
-      className="centered-content d-flex flex-column"
-      style={{ fontWeight: "600" }}
-    >
-      <div className="d-flex mb-2 justify-content-between">
-        <div className="d-flex flex-column">
-          <span style={{ fontWeight: "bold" }}>Edit Customer</span>
-          {/* <span>Enter the details for the new customer.</span> */}
-        </div>
-        <Link onClick={closeEditModal} style={{ color: "grey" }}>
-          <RxCross2 />
-        </Link>
-      </div>
-      {/* <form> */}
-        <div className="mb-2">
-          <label for="name" className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            className="form-control"
-            id="name"
-            value={formData.name}
-            onChange={handleChange}
-            disabled
-          />
-        </div>
-        <div className="mb-2">
-          <label for="exampleInputEmail1" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            onChange={handleChange}
-            value={formData.email}
-            disabled
-          />
-        </div>
-        <div className="mb-2">
-          <label for="mobile-number" className="form-label">
-            Phone Number
-          </label>
-          {/* change from text to number later */}
-          <input
-            type="text"
-            name="phoneNo"
-            className="form-control"
-            id="mobile-number"
-            onChange={handleChange}
-            value={formData.phoneNo}
-            disabled
-          />
-        </div>
-        <div className="d-flex gap-3">
-          <div className="mb-2">
-            <label for="age" className="form-label">
-              Date of Birth
-            </label>
-            {/* change from text to number later */}
-            <input
-              type="text"
-              className="form-control"
-              id="age"
-              name="dateOfBirth"
-              onChange={handleChange}
-              value={formData.dateOfBirth}
-              disabled
-            />
-          </div>
-          <div class="mb-2">
-            <label for="disabledSelect" class="form-label">
-              Role
-            </label>
-            <select
-              id="disabledSelect"
-              class="form-select"
-              name="role"
-              onChange={handleChange}
-              value={formData.role}
+    <div className="modal-overlay">
+      <div className="modal-container animate__animated animate__fadeIn">
+        <div className="modal-content p-4">
+          <div className="modal-header d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h4 className="modal-title fw-bold mb-2">Edit Customer</h4>
+              <p className="text-muted mb-0">Update customer information</p>
+            </div>
+            <button
+              className="btn-close-modal"
+              onClick={closeEditModal}
+              disabled={loading}
             >
-              <option>Admin</option>
-              <option>Member</option>
-            </select>
+              <IoMdClose size={24} />
+            </button>
+          </div>
+
+          <div className="modal-body">
+            <form className="row g-3">
+              <div className="col-md-6">
+                <div className="form-floating">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter name"
+                    disabled
+                  />
+                  <label htmlFor="name">Full Name</label>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="form-floating">
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter email"
+                    disabled
+                  />
+                  <label htmlFor="email">Email Address</label>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="form-floating">
+                  <input
+                    type="tel"
+                    className="form-control"
+                    id="phoneNo"
+                    name="phoneNo"
+                    value={formData.phoneNo}
+                    onChange={handleChange}
+                    placeholder="Enter phone"
+                    disabled
+                  />
+                  <label htmlFor="phoneNo">Phone Number</label>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="form-floating">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    value={formData.dateOfBirth}
+                    onChange={handleChange}
+                    placeholder="Enter date of birth"
+                    disabled
+                  />
+                  <label htmlFor="dateOfBirth">Date of Birth</label>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="form-floating">
+                  <select
+                    className="form-select"
+                    id="role"
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                    disabled={loading}
+                  >
+                    <option value="Admin">Admin</option>
+                    <option value="Member">Member</option>
+                  </select>
+                  <label htmlFor="role">Role</label>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="form-floating">
+                  <select
+                    className="form-select"
+                    id="branch"
+                    name="branch"
+                    value={formData.branch}
+                    onChange={handleChange}
+                    disabled={loading}
+                  >
+                    <option value="Gurgaon">Gurgaon</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Chennai">Chennai</option>
+                  </select>
+                  <label htmlFor="branch">Branch</label>
+                </div>
+              </div>
+            </form>
+
+            {message && (
+              <div
+                className={`alert ${
+                  message.includes("successfully")
+                    ? "alert-success"
+                    : "alert-danger"
+                } mt-3 animate__animated animate__fadeIn`}
+              >
+                {message}
+              </div>
+            )}
+          </div>
+
+          <div className="modal-footer border-top pt-4 mt-3">
+            <button
+              type="button"
+              className="btn btn-light btn-lg"
+              onClick={closeEditModal}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className={`btn btn-primary btn-lg px-4 position-relative ${
+                loading ? "is-loading" : ""
+              }`}
+              onClick={() => updateUser(customerId, formData)}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="loading-text">Updating...</span>
+                  <FaSpinner className="spinner-icon" />
+                </>
+              ) : (
+                "Update Customer"
+              )}
+            </button>
           </div>
         </div>
-        <div class="mb-2">
-          <label for="disabledSelect" class="form-label">
-            Branch
-          </label>
-          <select
-            id="disabledSelect"
-            class="form-select"
-            name="branch"
-            onChange={handleChange}
-            value={formData.branch}
-          >
-            <option>Gurgaon</option>
-            <option>Ahmedabad</option>
-            <option>Chennai</option>
-          </select>
-        </div>
-        <div className="d-flex justify-content-end">
-          <button className="btn btn-primary mb-2" onClick={() => updateUser(customerId, formData)}>
-            {loading? "Updating" : "Update Customer"}
-          </button>
-        </div>
-      {/* </form> */}
-      {message && (
-        <div
-          className={`alert ${message.includes(
-            "successfully"
-          )? "alert-success" : "alert-danger"}`}
-        >
-          {message}
-        </div>
-      )}
+      </div>
     </div>
   );
 };
