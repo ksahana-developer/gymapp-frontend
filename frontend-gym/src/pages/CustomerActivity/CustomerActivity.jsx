@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 // import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import CustomerActivityLog from '../../components/CustomerActivityLog/CustomerActivityLog';
 
 const CustomerActivity = () => {
+  const {id} = useParams()
   const [activityByDate, setActivityByDate] = useState([])
   const getMonth = (month) => {
     if (month === 0) {
@@ -45,7 +47,7 @@ const CustomerActivity = () => {
 
   const getCustomerAcitivityByDate = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/log/activities?startDate=${date}&endDate=${date}`, {
+      const response = await fetch(`http://localhost:5000/api/log/activities?startDate=${date}&endDate=${date}&custId=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
