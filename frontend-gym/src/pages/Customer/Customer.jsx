@@ -7,7 +7,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdOutlineEmail } from "react-icons/md";
 import { FiPhone } from "react-icons/fi";
 import './customer.css'
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
 import { jwtDecode } from "jwt-decode";
 
@@ -21,8 +21,8 @@ const Customer = () => {
     const [isDisplayEdit, setIsDisplayEdit] = useState(false)
     const [fetchCustomer, setFetchCustomer] = useState(false)
     const openEditModal = () => {
-        if(!isDisplayEdit)
-        setIsDisplayEdit(true)
+        if (!isDisplayEdit)
+            setIsDisplayEdit(true)
     }
 
     const closeEditModal = () => {
@@ -80,72 +80,131 @@ const Customer = () => {
     }, [])
 
     useEffect(() => {
-        if(fetchCustomer){
+        if (fetchCustomer) {
             getCustomer()
         }
         setFetchCustomer(false)
     }, [fetchCustomer])
 
     const token = localStorage.getItem('token')
-    const decoded = token? jwtDecode(token) : null
+    const decoded = token ? jwtDecode(token) : null
     return (
-        <div className="d-flex flex-column container-fluid mt-3" >
-            <h2 className="mb-4" >Customer Details</h2>
-            <Link to="/customers"><button className="btn btn-light mb-4" > <MdOutlineKeyboardArrowLeft />Back to Customers</button></Link>
-            <div className="d-flex justify-content-between align-items-center">
-                <div className="d-flex align-items-center justify-content-center gap-2">
-                    <img style={{
-                        width: "60px",
-                        height: "60px",
-                        borderRadius: "50%"
-                    }} src={localStorage.getItem('customer') ? JSON.parse(localStorage.getItem('customer')).profilePicture : '"https://www.wikibiodata.com/wp-content/uploads/2020/12/Sumeet-Raghvan.jpg"'} alt="" />
-                    <div className="d-flex flex-column">
-                        <h4>{!isLoadCust ? customer?.name : <p className="placeholder-glow">
-                            <span className="placeholder col-12"></span>
-                        </p>} </h4>
-                        <div className="d-flex align-items-center gap-2">
-                            <span className="badge text-bg-warning text-danger"><TbPointFilled />{customer?.status} </span>
-                            <p className="text-secondary fs-6 mb-0">ID: {!isLoadCust ? `GYM-${customer?.id}` : <span className="placeholder col-12"></span> } </p>
+        <div className="container-fluid py-4 px-3 px-md-4 animate__animated animate__fadeIn">
+            <div className="row mb-4">
+                <div className="col-12">
+                    <h2 className="mb-4 fw-bold text-primary">Customer Details</h2>
+                    <Link to="/customers" className="text-decoration-none">
+                        <button className="btn btn-light mb-4 shadow-sm hover-scale">
+                            <MdOutlineKeyboardArrowLeft />Back to Customers
+                        </button>
+                    </Link>
+                </div>
+            </div>
+
+            <div className="row mb-4">
+                <div className="col-12">
+                    <div className="customer-profile-card p-4 bg-white rounded-3 shadow-sm hover-card animate__animated animate__fadeIn">
+                        <div className="d-flex flex-column flex-md-row align-items-center gap-4">
+                            <div className="profile-image-container">
+                                <img
+                                    src={localStorage.getItem('customer') ? JSON.parse(localStorage.getItem('customer')).profilePicture : '"https://www.wikibiodata.com/wp-content/uploads/2020/12/Sumeet-Raghvan.jpg"'}
+                                    alt="Profile"
+                                    className="rounded-circle profile-image hover-scale"
+                                    width="120"
+                                    height="120" />
+                            </div>
+                            <div className="customer-info text-center d-flex flex-column align-items-start text-md-start">
+                                <h4 className="mb-2 fw-bold text-primary">
+                                    {!isLoadCust ? customer?.name :
+                                        <p className="placeholder-glow">
+                                            <span className="placeholder col-12"></span>
+                                        </p>
+                                    }
+                                </h4>
+                                <div className="d-flex flex-wrap align-items-center gap-3">
+                                    <span className="badge bg-warning text-danger d-flex align-items-center info-item">
+                                        <TbPointFilled className="me-1" />{customer?.status}
+                                    </span>
+                                    <p className="text-secondary fs-6 mb-0 info-item">
+                                        <span className="fw-semibold">ID:</span> {!isLoadCust ? `GYM-${customer?.id}` :
+                                            <span className="placeholder col-12"></span>
+                                        }
+                                    </p>
+                                </div>
+                                <div className="d-flex gap-3 align-items-center">
+                                    {(id === decoded.id) && <button className="btn btn-light" onClick={() => openEditModal(customer)}><FiEdit /> Edit</button>}
+                                    <Link to={`/activity/customer/${JSON.parse(localStorage.getItem('customer'))?.id}`} className="btn btn-primary btn-sm my-2">View my activity</Link>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="d-flex gap-3 align-items-center">
-                    {(id === decoded.id) && <button className="btn btn-light" onClick={() => openEditModal(customer)}><FiEdit /> Edit</button>}
-                    <button className="btn btn-danger"><AiOutlineDelete /> Delete</button>
-                    <Link to={`/activity/customer/${JSON.parse(localStorage.getItem('customer'))?.id}`} className="btn btn-light">View my activity</Link>
-                </div>
             </div>
-            <div className="d-flex justify-content-around align-items-center mt-2 ms-5 me-5 gap-3">
-                <div className="d-flex flex-column border border-light border-3 p-4 rounded-2 flex-item">
-                    <h4>Contact Information</h4>
-                    <p className="fs-6 text-secondary">Customer's personal contact details</p>
-                    <p><MdOutlineEmail /> {!isLoadCust ? customer?.email :<span className="placeholder col-6"></span> } </p>
-                    <p><FiPhone /> {!isLoadCust ? customer?.phoneNo : <span className="placeholder col-4"></span>} </p>
-                </div>
-                {customer?.activeSubscriptionId && <div className="d-flex flex-column border border-light border-3 p-4 rounded-2 flex-item">
-                    <h4>Membership Details</h4>
-                    <p className="fs-6 text-secondary">Information about the customer's membership</p>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <p className="text-secondary">Type</p>
-                        <p>{!isLoadMem ? membership?.type :  <span className="placeholder col-12"></span>} </p>
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <p className="text-secondary">Start Date</p>
-                        <p>{membership?.startDate} </p>
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <p className="text-secondary">End Date</p>
-                        <p>{`${date?.getDate()}-${String(date?.getMonth()).length == 1 ? "0" + String(date?.getMonth() + 1) : (date?.getMonth() + 1)}-${date?.getFullYear()}`} </p>
-                    </div>
-                </div>}
-            </div>
-            <div className="d-flex flex-column border border-light border-3 p-4 rounded-2 mt-4">
-            <h4>Purshase History</h4>
-                    <p className="fs-6 text-secondary">Customer's personal contact details</p>
-            </div>
-            {isDisplayEdit && <EditProfileModal customer = {customer} closeEditModal = {closeEditModal} setFetchCustomer = {setFetchCustomer} />}
-        </div>)
-}
 
+            <div className="row gy-4">
+                <div className="col-12 col-md-6">
+                    <div className="card shadow-sm border-0 rounded-3 p-4 h-100 hover-card">
+                        <h4 className="fw-bold mb-3">Contact Information</h4>
+                        <p className="text-secondary mb-4">Customer's personal contact details</p>
+                        <div className="d-flex align-items-center mb-3 info-item">
+                            <MdOutlineEmail className="me-2 text-primary" />
+                            <span>{!isLoadCust ? customer?.email :
+                                <span className="placeholder col-6"></span>
+                            }</span>
+                        </div>
+                        <div className="d-flex align-items-center info-item">
+                            <FiPhone className="me-2 text-primary" />
+                            <span>{!isLoadCust ? customer?.phoneNo :
+                                <span className="placeholder col-4"></span>
+                            }</span>
+                        </div>
+                    </div>
+                </div>
+
+                {customer?.activeSubscriptionId &&
+                    <div className="col-12 col-md-6">
+                        <div className="card shadow-sm border-0 rounded-3 p-4 h-100 hover-card">
+                            <h4 className="fw-bold mb-3">Membership Details</h4>
+                            <p className="text-secondary mb-4">Information about the customer's membership</p>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <p className="text-secondary mb-0">Type</p>
+                                <p className="mb-0 fw-medium">{!isLoadMem ? membership?.type :
+                                    <span className="placeholder col-12"></span>
+                                }</p>
+                            </div>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <p className="text-secondary mb-0">Start Date</p>
+                                <p className="mb-0 fw-medium">{membership?.startDate}</p>
+                            </div>
+                            <div className="d-flex justify-content-between align-items-center">
+                                <p className="text-secondary mb-0">End Date</p>
+                                <p className="mb-0 fw-medium">
+                                    {`${date?.getDate()}-${String(date?.getMonth()).length == 1 ? "0" + String(date?.getMonth() + 1) : (date?.getMonth() + 1)}-${date?.getFullYear()}`}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div className="row mt-4">
+                <div className="col-12">
+                    <div className="card shadow-sm border-0 rounded-3 p-4 hover-card">
+                        <h4 className="fw-bold mb-3">Purchase History</h4>
+                        <p className="text-secondary">Customer's personal contact details</p>
+                    </div>
+                </div>
+            </div>
+
+            {isDisplayEdit &&
+                <EditProfileModal
+                    customer={customer}
+                    closeEditModal={closeEditModal}
+                    setFetchCustomer={setFetchCustomer}
+                />
+            }
+        </div>
+    );
+}
 
 export default Customer;
