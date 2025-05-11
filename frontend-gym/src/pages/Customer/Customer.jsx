@@ -133,7 +133,7 @@ const Customer = () => {
                                 </div>
                                 <div className="d-flex gap-3 align-items-center">
                                     {(id === decoded.id) && <button className="btn btn-light" onClick={() => openEditModal(customer)}><FiEdit /> Edit</button>}
-                                    <Link to={`/activity/customer/${JSON.parse(localStorage.getItem('customer'))?.id}`} className="btn btn-primary btn-sm my-2">View my activity</Link>
+                                    {(id === decoded.id) && <Link to={`/activity/customer/${JSON.parse(localStorage.getItem('customer'))?.id}`} className="btn btn-primary btn-sm my-2">View my activity</Link>}
                                 </div>
                             </div>
                         </div>
